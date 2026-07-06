@@ -283,20 +283,52 @@
     });
   }
 
-  /* contact popup (Work With Us) */
+  /* business inquiry form (For Businesses page + any .contact-open buttons) */
+  function submitInquiry(fields, ui) {
+    ui.btn.disabled = true; ui.btn.textContent = 'Sending\u2026';
+    return fetch(REVIEWS_URL + '/rest/v1/contact_requests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: REVIEWS_KEY, Authorization: 'Bearer ' + REVIEWS_KEY, Prefer: 'return=minimal' },
+      body: JSON.stringify(fields)
+    }).then(function (r) {
+      if (!r.ok) throw new Error('submit failed');
+      ui.onSuccess();
+    }).catch(function () {
+      window.location.href = 'mailto:hello@salxir.com?subject=' + encodeURIComponent('Business inquiry from ' + fields.name) +
+        '&body=' + encodeURIComponent(fields.message + '\n\nCompany: ' + (fields.company || '-') + '\nType: ' + fields.inquiry_type);
+      ui.btn.disabled = false; ui.btn.textContent = ui.label;
+      ui.onFallback();
+    });
+  }
+
+  function bindBizForm() {
+    var form = document.getElementById('biz-form');
+    if (!form) return;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var note = document.getElementById('bz-note');
+      var btn = document.getElementById('bz-btn');
+      var fields = {
+        name: document.getElementById('bz-name').value.trim(),
+        email: document.getElementById('bz-email').value.trim(),
+        company: document.getElementById('bz-company').value.trim() || null,
+        inquiry_type: document.getElementById('bz-type').value,
+        message: document.getElementById('bz-msg').value.trim()
+      };
+      if (!fields.name || !fields.email || !fields.message) { note.textContent = 'Please fill in name, email, and message.'; note.style.color = 'var(--red)'; return; }
+      submitInquiry(fields, {
+        btn: btn, label: 'Send Inquiry',
+        onSuccess: function () {
+          form.innerHTML = '<h3>Thank you, ' + fields.name.split(' ')[0] + '! \ud83c\udf89</h3><p style="color:#666;font-size:14.5px">Your inquiry was received. We reply within one business day at <b>' + fields.email + '</b>.</p>';
+        },
+        onFallback: function () { note.textContent = 'Direct submit unavailable \u2014 your email app opened instead.'; note.style.color = 'var(--red)'; }
+      });
+    });
+  }
+
   function bindContact() {
     document.querySelectorAll('.contact-open').forEach(function (b) {
-      b.addEventListener('click', function () {
-        var ov = openModal('<h3 class="modal-title">Get in Touch</h3>' +
-          '<p style="color:#666;font-size:14.5px;margin-bottom:18px">Wholesale, supply, or anything else — email us and we reply within a business day.</p>' +
-          '<div class="contact-row"><code id="contact-mail">hello@salxir.com</code><button class="btn btn-black" id="copy-mail" type="button">Copy</button></div>' +
-          '<a class="btn btn-navy" style="width:100%;margin-top:14px" href="mailto:hello@salxir.com?subject=Business inquiry — Salxir">Open Email App</a>');
-        ov.querySelector('#copy-mail').addEventListener('click', function () {
-          navigator.clipboard.writeText('hello@salxir.com').then(function () {
-            ov.querySelector('#copy-mail').textContent = 'Copied ✓';
-          });
-        });
-      });
+      b.addEventListener('click', function () { window.location.href = '/for-businesses#contact'; });
     });
   }
 
@@ -349,6 +381,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     loadCerts();
     bindContact();
+    bindBizForm();
     bindReview();
   });
 })();
