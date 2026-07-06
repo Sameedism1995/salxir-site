@@ -15,9 +15,9 @@
     'shilajit-ashwagandha':              { name: 'Shilajit + Ashwagandha Capsules',      price: 10, img: 'images/ShilajitAshwagandhacapsules.png', priceId: DEFAULT_PRICE_ID },
     'shilajit-honey-sticks':             { name: 'Shilajit Honey Sticks',                price: 15, img: 'images/shilajithoney.png',              priceId: DEFAULT_PRICE_ID },
     'shilajit-ashwagandha-honey-sticks': { name: 'Shilajit + Ashwagandha Honey Sticks',  price: 18, img: 'images/shilajitashwagandhahoney.png',   priceId: DEFAULT_PRICE_ID },
-    'shilajit-powder-capsules':          { name: 'Shilajit Capsules — Shilajit+',        price: 15, img: 'images/shilajitcaps.png',               priceId: DEFAULT_PRICE_ID },
+    'shilajit-powder-capsules':          { name: 'Shilajit Capsules (Shilajit+)',        price: 15, img: 'images/shilajitcaps.png',               priceId: DEFAULT_PRICE_ID },
     'shilajit-tablets':                  { name: 'Shilajit Tablets',                     price: 15, img: 'images/shilajittabs.png',               priceId: DEFAULT_PRICE_ID },
-    'pink-salt-table':                   { name: 'Pink Salt — Table Salt',               price: 4,  img: 'images/pinksalt.png',                   priceId: DEFAULT_PRICE_ID },
+    'pink-salt-table':                   { name: 'Pink Salt, Table Salt',               price: 4,  img: 'images/pinksalt.png',                   priceId: DEFAULT_PRICE_ID },
     'sea-buckthorn-powder':              { name: 'Sea Buckthorn Powder',                 price: 9,  img: 'images/seabuckpowder.png',              priceId: DEFAULT_PRICE_ID },
     'moringa-powder':                    { name: 'Moringa Powder',                       price: 9,  img: 'images/moringapowder.png',              priceId: DEFAULT_PRICE_ID },
     'turmeric-powder':                   { name: 'Salxir Premium Turmeric Powder',       price: 10, img: 'images/turmericpowder.png',             priceId: DEFAULT_PRICE_ID },
@@ -220,7 +220,7 @@
       var subject = encodeURIComponent('Website review (' + rating + '/5) from ' + name);
       var body = encodeURIComponent('Rating: ' + stars + ' (' + rating + '/5)\nName: ' + name + '\n\n' + text);
       window.location.href = 'mailto:hello@salxir.com?subject=' + subject + '&body=' + body;
-      document.getElementById('rev-msg').textContent = 'Thanks, ' + name + '! Your email app opened — press send and we’ll publish your review after a quick check.';
+      document.getElementById('rev-msg').textContent = 'Thanks, ' + name + '! Your email app opened, press send and we’ll publish your review after a quick check.';
     });
   });
 })();
@@ -231,7 +231,7 @@
 
   var STORE_URL = 'https://dkorgvcwuzzoykxussac.supabase.co';
   var STORE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrb3JndmN3dXp6b3lreHVzc2FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMDg5MTEsImV4cCI6MjA2MDU4NDkxMX0.nr8TwC6CP5ylzR1weyxdKKAsDWFrm_9oLaLB-rL0glY';
-  /* Reviews DB (Salxir tools project) — filled at deploy time */
+  /* Reviews DB (Salxir tools project), filled at deploy time */
   var REVIEWS_URL = 'https://vfrkgasrjretcgiwgyxt.supabase.co';
   var REVIEWS_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmcmtnYXNyanJldGNnaXdneXh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyMjI2MTgsImV4cCI6MjA5Njc5ODYxOH0.YOQ4yk0TdBBYm-ZID_qafMHPpIj4MaEqX1qP50YsM7Q';
 
@@ -340,7 +340,7 @@
       var rating = 5;
       var ov = openModal('<h3 class="modal-title">Write a Review</h3>' +
         '<div class="rev-pick" id="rev-pick"><button type="button" data-r="1">★</button><button type="button" data-r="2">★</button><button type="button" data-r="3">★</button><button type="button" data-r="4">★</button><button type="button" data-r="5" class="on">★</button></div>' +
-        '<input id="rev-name" type="text" placeholder="Name (optional — posts as Anonymous)">' +
+        '<input id="rev-name" type="text" placeholder="Name (optional, posts as Anonymous)">' +
         '<textarea id="rev-text" rows="4" placeholder="Your experience with Salxir…"></textarea>' +
         '<button class="btn btn-black" id="rev-send" type="button" style="width:100%">Submit Review</button>' +
         '<p class="rev-msg" id="rev-msg">Reviews are published after a quick moderation check.</p>');
@@ -372,7 +372,7 @@
         }).catch(function () {
           window.location.href = 'mailto:hello@salxir.com?subject=' + encodeURIComponent('Website review (' + rating + '/5) from ' + name) + '&body=' + encodeURIComponent(text);
           send.disabled = false; send.textContent = 'Submit Review';
-          msg.textContent = 'Direct submit unavailable — your email app opened instead.';
+          msg.textContent = 'Direct submit unavailable, your email app opened instead.';
         });
       });
     });
