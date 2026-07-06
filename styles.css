@@ -263,3 +263,5 @@ footer{background:var(--black);color:#b5b5b5;padding:64px 0 30px;font-size:14px}
 .checkout-box .consent{display:flex;gap:10px;align-items:center;font-weight:500;margin:10px 0 14px}
 .co-msg{color:var(--red);font-size:13.5px;min-height:18px;margin-top:8px}
 @media(max-width:860px){.cart-layout{grid-template-columns:1fr}}
+
+/* build trigger */
