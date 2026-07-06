@@ -234,3 +234,9 @@ footer{background:var(--black);color:#b5b5b5;padding:64px 0 30px;font-size:14px}
 @media(max-width:600px){
   .rev-row,.shop-grid,.cert-grid,.blog-list{grid-template-columns:1fr}
 }
+
+/* logo image */
+.logo{display:inline-flex;align-items:center;gap:10px}
+.logo img{height:32px;width:32px;display:block}
+.foot-logo{display:flex;align-items:center;gap:10px}
+.foot-logo img{height:26px;width:26px;filter:invert(1)}
