@@ -69,7 +69,7 @@
     var slugs = Object.keys(c);
     var form = document.getElementById('checkout-form');
     if (!slugs.length) {
-      root.innerHTML = '<div class="cart-empty"><p>Your cart is empty.</p><a href="shop.html" class="btn btn-black">Browse the Shop</a></div>';
+      root.innerHTML = '<div class="cart-empty"><p>Your cart is empty.</p><a href="/shop" class="btn btn-black">Browse the Shop</a></div>';
       if (form) form.style.display = 'none';
       return;
     }
@@ -121,8 +121,8 @@
     var payload = {
       price_id: DEFAULT_PRICE_ID,
       quantity: totalQty,
-      success_url: new URL('success.html', window.location.href).href,
-      cancel_url: new URL('cart.html', window.location.href).href,
+      success_url: window.location.origin + '/success',
+      cancel_url: window.location.origin + '/cart',
       mode: 'payment',
       shipping_details: { name: name, email: email, deliveryMethod: delivery },
       metadata: {
@@ -222,5 +222,133 @@
       window.location.href = 'mailto:hello@salxir.com?subject=' + subject + '&body=' + body;
       document.getElementById('rev-msg').textContent = 'Thanks, ' + name + '! Your email app opened — press send and we’ll publish your review after a quick check.';
     });
+  });
+})();
+
+/* ---- modal system + certificates + contact + review popup ---- */
+(function () {
+  'use strict';
+
+  var STORE_URL = 'https://dkorgvcwuzzoykxussac.supabase.co';
+  var STORE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrb3JndmN3dXp6b3lreHVzc2FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwMDg5MTEsImV4cCI6MjA2MDU4NDkxMX0.nr8TwC6CP5ylzR1weyxdKKAsDWFrm_9oLaLB-rL0glY';
+  /* Reviews DB (Salxir tools project) — filled at deploy time */
+  var REVIEWS_URL = 'https://vfrkgasrjretcgiwgyxt.supabase.co';
+  var REVIEWS_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmcmtnYXNyanJldGNnaXdneXh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyMjI2MTgsImV4cCI6MjA5Njc5ODYxOH0.YOQ4yk0TdBBYm-ZID_qafMHPpIj4MaEqX1qP50YsM7Q';
+
+  function openModal(html) {
+    closeModal();
+    var ov = document.createElement('div');
+    ov.className = 'modal-ov';
+    ov.innerHTML = '<div class="modal-box" role="dialog" aria-modal="true"><button class="modal-x" aria-label="Close">×</button>' + html + '</div>';
+    document.body.appendChild(ov);
+    document.body.style.overflow = 'hidden';
+    ov.addEventListener('click', function (e) { if (e.target === ov) closeModal(); });
+    ov.querySelector('.modal-x').addEventListener('click', closeModal);
+    document.addEventListener('keydown', escClose);
+    return ov;
+  }
+  function escClose(e) { if (e.key === 'Escape') closeModal(); }
+  function closeModal() {
+    var ov = document.querySelector('.modal-ov');
+    if (ov) ov.remove();
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', escClose);
+  }
+
+  /* certificates on /about */
+  function loadCerts() {
+    var grid = document.getElementById('cert-grid');
+    if (!grid) return;
+    var ICONS = { 'Qarshi EOE Certificate': '📜', 'SGS Certification Report': '🔬', 'Laboratory Test Results': '🧪', 'Heavy Metal Analysis': '⚗️', 'Narcotics Analysis': '✅' };
+    fetch(STORE_URL + '/rest/v1/product_certificates?select=product_name,certificate_type,issue_date,file_url&order=issue_date.desc', {
+      headers: { apikey: STORE_KEY, Authorization: 'Bearer ' + STORE_KEY }
+    }).then(function (r) { return r.json(); }).then(function (rows) {
+      if (!Array.isArray(rows) || !rows.length) throw new Error('empty');
+      grid.innerHTML = rows.map(function (c) {
+        var d = new Date(c.issue_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        return '<div class="cert"><div class="ico">' + (ICONS[c.certificate_type] || '📄') + '</div>' +
+          '<h3>' + c.certificate_type + '</h3><p>' + c.product_name + '</p>' +
+          '<div class="date">Issued: ' + d + '</div>' +
+          '<div class="cert-actions"><button class="btn btn-black cert-view" data-url="' + c.file_url + '" data-title="' + c.certificate_type + '">View</button>' +
+          '<a class="btn btn-ghost-dark" href="' + c.file_url + '" target="_blank" rel="noopener" download>Download</a></div></div>';
+      }).join('');
+      grid.querySelectorAll('.cert-view').forEach(function (b) {
+        b.addEventListener('click', function () {
+          openModal('<h3 class="modal-title">' + b.dataset.title + '</h3><iframe class="cert-frame" src="' + b.dataset.url + '#toolbar=0" title="Certificate"></iframe>' +
+            '<a class="btn btn-black" style="margin-top:12px" href="' + b.dataset.url + '" target="_blank" rel="noopener">Open Full Size ↗</a>');
+        });
+      });
+    }).catch(function () {
+      grid.innerHTML = '<p style="color:#888">Certificates are temporarily unavailable. Email <a href="mailto:hello@salxir.com">hello@salxir.com</a> for copies.</p>';
+    });
+  }
+
+  /* contact popup (Work With Us) */
+  function bindContact() {
+    document.querySelectorAll('.contact-open').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var ov = openModal('<h3 class="modal-title">Get in Touch</h3>' +
+          '<p style="color:#666;font-size:14.5px;margin-bottom:18px">Wholesale, supply, or anything else — email us and we reply within a business day.</p>' +
+          '<div class="contact-row"><code id="contact-mail">hello@salxir.com</code><button class="btn btn-black" id="copy-mail" type="button">Copy</button></div>' +
+          '<a class="btn btn-navy" style="width:100%;margin-top:14px" href="mailto:hello@salxir.com?subject=Business inquiry — Salxir">Open Email App</a>');
+        ov.querySelector('#copy-mail').addEventListener('click', function () {
+          navigator.clipboard.writeText('hello@salxir.com').then(function () {
+            ov.querySelector('#copy-mail').textContent = 'Copied ✓';
+          });
+        });
+      });
+    });
+  }
+
+  /* review popup */
+  function bindReview() {
+    var btn = document.getElementById('rev-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var rating = 5;
+      var ov = openModal('<h3 class="modal-title">Write a Review</h3>' +
+        '<div class="rev-pick" id="rev-pick"><button type="button" data-r="1">★</button><button type="button" data-r="2">★</button><button type="button" data-r="3">★</button><button type="button" data-r="4">★</button><button type="button" data-r="5" class="on">★</button></div>' +
+        '<input id="rev-name" type="text" placeholder="Name (optional — posts as Anonymous)">' +
+        '<textarea id="rev-text" rows="4" placeholder="Your experience with Salxir…"></textarea>' +
+        '<button class="btn btn-black" id="rev-send" type="button" style="width:100%">Submit Review</button>' +
+        '<p class="rev-msg" id="rev-msg">Reviews are published after a quick moderation check.</p>');
+      function paint() {
+        ov.querySelectorAll('#rev-pick button').forEach(function (x) {
+          x.classList.toggle('on', Number(x.dataset.r) <= rating);
+        });
+      }
+      ov.querySelectorAll('#rev-pick button').forEach(function (b2) {
+        b2.addEventListener('click', function () { rating = Number(b2.dataset.r); paint(); });
+      });
+      paint();
+      ov.querySelector('#rev-send').addEventListener('click', function () {
+        var text = ov.querySelector('#rev-text').value.trim();
+        var msg = ov.querySelector('#rev-msg');
+        if (!text) { msg.textContent = 'Please write a few words first.'; return; }
+        var name = ov.querySelector('#rev-name').value.trim() || 'Anonymous';
+        var send = ov.querySelector('#rev-send');
+        send.disabled = true; send.textContent = 'Sending…';
+        var configured = REVIEWS_URL.indexOf('http') === 0;
+        (configured ? fetch(REVIEWS_URL + '/rest/v1/website_reviews', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: REVIEWS_KEY, Authorization: 'Bearer ' + REVIEWS_KEY, Prefer: 'return=minimal' },
+          body: JSON.stringify({ name: name, rating: rating, text: text })
+        }) : Promise.reject()).then(function (r) {
+          if (!r.ok) throw new Error();
+          ov.querySelector('.modal-box').innerHTML = '<button class="modal-x" aria-label="Close">×</button><h3 class="modal-title">Thank you' + (name !== 'Anonymous' ? ', ' + name : '') + '! 🎉</h3><p style="color:#666">Your review was received and will appear after a quick moderation check.</p>';
+          ov.querySelector('.modal-x').addEventListener('click', closeModal);
+        }).catch(function () {
+          window.location.href = 'mailto:hello@salxir.com?subject=' + encodeURIComponent('Website review (' + rating + '/5) from ' + name) + '&body=' + encodeURIComponent(text);
+          send.disabled = false; send.textContent = 'Submit Review';
+          msg.textContent = 'Direct submit unavailable — your email app opened instead.';
+        });
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    loadCerts();
+    bindContact();
+    bindReview();
   });
 })();

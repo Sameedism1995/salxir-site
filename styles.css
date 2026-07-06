@@ -297,3 +297,17 @@ footer{background:var(--black);color:#b5b5b5;padding:64px 0 30px;font-size:14px}
 .pd-details ul{margin:10px 0 8px 18px}
 .pd-details li{margin-bottom:5px}
 .pd-usage{margin-top:6px;font-size:13px;color:#666}
+
+/* modal */
+.modal-ov{position:fixed;inset:0;background:rgba(13,13,13,.55);z-index:1000;display:grid;place-items:center;padding:20px;backdrop-filter:blur(3px)}
+.modal-box{background:#fff;border-radius:20px;padding:32px;max-width:640px;width:100%;max-height:88vh;overflow:auto;position:relative;display:flex;flex-direction:column;gap:10px}
+.modal-x{position:absolute;top:12px;right:16px;background:none;border:none;font-size:28px;color:#999;cursor:pointer;line-height:1}
+.modal-x:hover{color:var(--black)}
+.modal-title{font-size:21px;font-weight:800;color:var(--black);margin-bottom:6px;padding-right:24px}
+.modal-box input,.modal-box textarea{padding:13px 16px;border:1.5px solid #ddd;border-radius:10px;font-family:var(--font);font-size:14.5px;width:100%}
+.modal-box input:focus,.modal-box textarea:focus{outline:none;border-color:var(--black)}
+.cert-frame{width:100%;height:min(62vh,640px);border:1.5px solid #eee;border-radius:10px}
+.contact-row{display:flex;gap:10px;align-items:center}
+.contact-row code{flex:1;background:var(--cream);border-radius:10px;padding:14px 16px;font-size:15px;font-weight:600}
+.btn-sm{padding:11px 24px;font-size:13px}
+.tool-img{width:min(300px,100%);border-radius:16px;box-shadow:0 16px 34px rgba(0,0,0,.25)}
