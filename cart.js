@@ -328,7 +328,7 @@
 
   function bindContact() {
     document.querySelectorAll('.contact-open').forEach(function (b) {
-      b.addEventListener('click', function () { window.location.href = '/for-businesses#contact'; });
+      b.addEventListener('click', function () { window.location.href = 'https://global.salxir.com'; });
     });
   }
 
