@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shop — Salxir | Pure Himalayan Shilajit &amp; Natural Superfoods</title>
+<title>Shop — Salxir | With Love, From Earth</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="images/logo.png">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,7 +13,7 @@
 <div class="announce">FREE SHIPPING ACROSS FINLAND ON ORDERS OVER €40!</div>
 <header>
   <div class="wrap nav">
-    <a href="index.html" class="logo"><img src="images/logo.png" alt="Salxir logo">sal<span>x</span>ir</a>
+    <a href="index.html" class="logo"><img src="images/logo.png" alt="Salxir logo">Salxir</a>
     <nav class="nav-links">
       <a href="shop.html" class="on">Shop</a>
       <a href="products.html">Our Products</a>
@@ -32,11 +33,11 @@
 
 <div class="wrap">
   <div class="chips">
-    <span class="chip on">All</span><span class="chip">Shilajit</span><span class="chip">Royal Blends</span><span class="chip">Easy Shilajit</span><span class="chip">Pink Salt</span><span class="chip">Superfoods</span><span class="chip">Teas</span><span class="chip">Specials</span>
+    <span class="chip on" data-filter="all">All</span><span class="chip" data-filter="shilajit">Shilajit</span><span class="chip" data-filter="royal">Royal Blends</span><span class="chip" data-filter="easy">Easy Shilajit</span><span class="chip" data-filter="pinksalt">Pink Salt</span><span class="chip" data-filter="superfoods">Superfoods</span><span class="chip" data-filter="teas">Teas</span>
   </div>
 
   <div class="shop-grid">
-    <div class="scard">
+    <div class="scard" data-cat="shilajit">
       <div class="scard-img"><img src="images/shilajitresin.png" alt="Shilajit Resin 20g"></div>
       <div class="scard-body">
         <span class="stag">Save 57%</span>
@@ -46,7 +47,7 @@
         <button class="btn btn-black add-to-cart" data-slug="shilajit-resin">Add to Cart</button>
       </div>
     </div>
-    <div class="scard">
+    <div class="scard" data-cat="shilajit royal">
       <div class="scard-img"><img src="images/ShilajitAshwagandhacapsules.png" alt="Shilajit + Ashwagandha Capsules"></div>
       <div class="scard-body">
         <span class="stag">Save 33%</span>
@@ -56,7 +57,7 @@
         <button class="btn btn-black add-to-cart" data-slug="shilajit-ashwagandha">Add to Cart</button>
       </div>
     </div>
-    <div class="scard">
+    <div class="scard" data-cat="shilajit easy">
       <div class="scard-img"><img src="images/shilajithoney.png" alt="Shilajit Honey Sticks"></div>
       <div class="scard-body">
         <span class="stag">Save 17%</span>
@@ -66,7 +67,7 @@
         <button class="btn btn-black add-to-cart" data-slug="shilajit-honey-sticks">Add to Cart</button>
       </div>
     </div>
-    <div class="scard">
+    <div class="scard" data-cat="shilajit royal easy">
       <div class="scard-img"><img src="images/shilajitashwagandhahoney.png" alt="Shilajit + Ashwagandha Honey Sticks"></div>
       <div class="scard-body">
         <span class="stag">Save 22%</span>
@@ -76,7 +77,7 @@
         <button class="btn btn-black add-to-cart" data-slug="shilajit-ashwagandha-honey-sticks">Add to Cart</button>
       </div>
     </div>
-    <div class="scard">
+    <div class="scard" data-cat="shilajit easy">
       <div class="scard-img"><img src="images/shilajitcaps.png" alt="Shilajit+ Capsules"></div>
       <div class="scard-body">
         <span class="stag">Save 25%</span>
@@ -86,7 +87,7 @@
         <button class="btn btn-black add-to-cart" data-slug="shilajit-powder-capsules">Add to Cart</button>
       </div>
     </div>
-    <div class="scard">
+    <div class="scard" data-cat="shilajit easy">
       <div class="scard-img"><img src="images/shilajittabs.png" alt="Shilajit Tablets"></div>
       <div class="scard-body">
         <span class="stag">Save 25%</span>
@@ -96,7 +97,7 @@
         <button class="btn btn-black add-to-cart" data-slug="shilajit-tablets">Add to Cart</button>
       </div>
     </div>
-    <div class="scard">
+    <div class="scard" data-cat="pinksalt">
       <div class="scard-img"><img src="images/pinksalt.png" alt="Himalayan Pink Salt"></div>
       <div class="scard-body">
         <span class="stag">Save 33%</span>
@@ -106,7 +107,7 @@
         <button class="btn btn-black add-to-cart" data-slug="pink-salt-table">Add to Cart</button>
       </div>
     </div>
-    <div class="scard">
+    <div class="scard" data-cat="pinksalt">
       <div class="scard-img oos"><img src="images/pinksaltdeco.png" alt="Pink Salt Decorations"></div>
       <div class="scard-body">
         <span class="stag oos">Out of Stock</span>
@@ -116,7 +117,7 @@
         <button class="btn btn-black" disabled style="opacity:.5">Notify Me</button>
       </div>
     </div>
-    <div class="scard">
+    <div class="scard" data-cat="superfoods">
       <div class="scard-img"><img src="images/seabuckpowder.png" alt="Sea Buckthorn Powder"></div>
       <div class="scard-body">
         <span class="stag">Save 25%</span>
@@ -126,7 +127,7 @@
         <button class="btn btn-black add-to-cart" data-slug="sea-buckthorn-powder">Add to Cart</button>
       </div>
     </div>
-    <div class="scard">
+    <div class="scard" data-cat="superfoods">
       <div class="scard-img"><img src="images/moringapowder.png" alt="Moringa Powder"></div>
       <div class="scard-body">
         <span class="stag">Save 25%</span>
@@ -136,7 +137,7 @@
         <button class="btn btn-black add-to-cart" data-slug="moringa-powder">Add to Cart</button>
       </div>
     </div>
-    <div class="scard">
+    <div class="scard" data-cat="superfoods">
       <div class="scard-img"><img src="images/turmericpowder.png" alt="Salxir Premium Turmeric Powder"></div>
       <div class="scard-body">
         <span class="stag">Save 23%</span>
@@ -146,7 +147,7 @@
         <button class="btn btn-black add-to-cart" data-slug="turmeric-powder">Add to Cart</button>
       </div>
     </div>
-    <div class="scard">
+    <div class="scard" data-cat="teas">
       <div class="scard-img"><img src="images/tumorotea.png" alt="Tumoro Tea"></div>
       <div class="scard-body">
         <span class="stag">Save 31%</span>
@@ -156,7 +157,7 @@
         <button class="btn btn-black add-to-cart" data-slug="tumur-tea">Add to Cart</button>
       </div>
     </div>
-    <div class="scard">
+    <div class="scard" data-cat="superfoods">
       <div class="scard-img"><img src="images/moringacaps.png" alt="Moringa Capsules"></div>
       <div class="scard-body">
         <span class="stag" style="background:var(--c-ashwa)">New</span>
@@ -166,7 +167,7 @@
         <button class="btn btn-black add-to-cart" data-slug="moringa-capsules">Add to Cart</button>
       </div>
     </div>
-    <div class="scard">
+    <div class="scard" data-cat="superfoods">
       <div class="scard-img"><img src="images/seabuckcaps.png" alt="Sea Buckthorn Capsules"></div>
       <div class="scard-body">
         <span class="stag" style="background:var(--c-ashwa)">New</span>
@@ -176,7 +177,7 @@
         <button class="btn btn-black add-to-cart" data-slug="sea-buckthorn-capsules">Add to Cart</button>
       </div>
     </div>
-    <div class="scard">
+    <div class="scard" data-cat="superfoods">
       <div class="scard-img"><img src="images/seabuckoil.png" alt="Sea Buckthorn Oil"></div>
       <div class="scard-body">
         <span class="stag" style="background:var(--c-ashwa)">New</span>
@@ -186,22 +187,11 @@
         <button class="btn btn-black add-to-cart" data-slug="sea-buckthorn-oil">Add to Cart</button>
       </div>
     </div>
-    <div class="scard">
-      <div class="scard-img"><img src="images/16.png" alt="Specials on request"></div>
-      <div class="scard-body">
-        <span class="stag" style="background:var(--gold)">On Request</span>
-        <h3>Specials</h3>
-        <p>Custom orders and bulk requests — tell us what you need.</p>
-        <div class="sprice">Get a quote</div>
-        <a href="mailto:hello@salxir.com" class="btn btn-black">Get a Quote</a>
-      </div>
-    </div>
   </div>
 </div>
 
 <section class="risk">
   <div class="wrap risk-grid">
-    <div class="badge"><span class="g">s</span></div>
     <div class="risk-copy">
       <h2>TRY IT, RISK-FREE!</h2>
       <p>If you're not satisfied with our product, simply contact us and we'll give you a full, 100% hassle-free refund.</p>
@@ -214,10 +204,11 @@
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <div class="foot-logo"><img src="images/logo.png" alt="">sal<span>x</span>ir</div>
+        <div class="foot-logo"><img src="images/logo.png" alt="">Salxir</div>
         <div class="foot-tag">#WithLoveFromEarth</div>
         <p>Pure Himalayan Shilajit and natural superfoods — lab-tested, quality-checked, and shipped from Finland.</p>
-        <div class="socials"><a href="https://instagram.com/salxir">Instagram</a><a href="https://www.facebook.com/salxir">Facebook</a><a href="https://www.tiktok.com/@salxir">TikTok</a><a href="https://www.linkedin.com/company/salxireu">LinkedIn</a></div>
+        <div class="socials"><a href="https://www.instagram.com/salxirglobal">Instagram</a><a href="https://www.facebook.com/salxirglobal/">Facebook</a><a href="https://www.tiktok.com/@salxirglobal">TikTok</a><a href="https://fi.linkedin.com/company/salxirglobal">LinkedIn</a></div>
+        <div class="oiva">✓ Oiva · Finnish Food Authority inspected</div>
       </div>
       <div>
         <h4>Quick Links</h4>

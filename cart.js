@@ -176,3 +176,51 @@
     if (document.getElementById('order-success')) { localStorage.removeItem(KEY); updateBadge(); }
   });
 })();
+
+/* category filter chips */
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    var chips = document.querySelectorAll('.chip[data-filter]');
+    if (!chips.length) return;
+    chips.forEach(function(ch){
+      ch.addEventListener('click', function(){
+        chips.forEach(function(c){ c.classList.remove('on'); });
+        ch.classList.add('on');
+        var f = ch.dataset.filter;
+        document.querySelectorAll('.scard[data-cat]').forEach(function(card){
+          card.style.display = (f === 'all' || card.dataset.cat.split(' ').indexOf(f) > -1) ? '' : 'none';
+        });
+      });
+    });
+  });
+})();
+
+/* anonymous review form */
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    var toggle = document.getElementById('rev-toggle');
+    var form = document.getElementById('rev-form');
+    if (!toggle || !form) return;
+    var rating = 5;
+    toggle.addEventListener('click', function(){ form.hidden = !form.hidden; });
+    document.querySelectorAll('#rev-pick button').forEach(function(b){
+      b.addEventListener('click', function(){
+        rating = Number(b.dataset.r);
+        document.querySelectorAll('#rev-pick button').forEach(function(x){
+          x.classList.toggle('on', Number(x.dataset.r) <= rating);
+        });
+      });
+    });
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var text = document.getElementById('rev-text').value.trim();
+      if (!text) return;
+      var name = document.getElementById('rev-name').value.trim() || 'Anonymous';
+      var stars = '★★★★★'.slice(0, rating);
+      var subject = encodeURIComponent('Website review (' + rating + '/5) from ' + name);
+      var body = encodeURIComponent('Rating: ' + stars + ' (' + rating + '/5)\nName: ' + name + '\n\n' + text);
+      window.location.href = 'mailto:hello@salxir.com?subject=' + subject + '&body=' + body;
+      document.getElementById('rev-msg').textContent = 'Thanks, ' + name + '! Your email app opened — press send and we’ll publish your review after a quick check.';
+    });
+  });
+})();
