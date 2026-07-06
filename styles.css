@@ -316,3 +316,5 @@ footer{background:var(--black);color:#b5b5b5;padding:64px 0 30px;font-size:14px}
 .biz-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:44px;align-items:start}
 @media(max-width:900px){.biz-grid{grid-template-columns:1fr}}
 .checkout-box select{padding:13px 16px;border:1.5px solid #ddd;border-radius:10px;font-family:var(--font);font-size:14.5px;background:#fff}
+
+/* deploy retry */
