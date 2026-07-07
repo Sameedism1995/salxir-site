@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Salxir Admin</title>
+<link rel="icon" type="image/png" href="/images/logo.png">
+<style>
+  :root{
+    --bg:#f6f6f7; --panel:#fff; --ink:#1a1a1a; --muted:#6d7175; --line:#e3e3e3;
+    --brand:#1a1a1a; --green:#008060; --green-d:#004c3f; --red:#d72c0d; --amber:#b98900;
+    --blue:#2c6ecb; --radius:10px; --shadow:0 1px 2px rgba(0,0,0,.06),0 1px 6px rgba(0,0,0,.04);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:14px}
+  a{color:var(--blue);text-decoration:none}
+  button{font-family:inherit;cursor:pointer}
+  .btn{border:1px solid var(--line);background:#fff;padding:8px 14px;border-radius:8px;font-weight:600;font-size:13.5px}
+  .btn:hover{background:#fafafa}
+  .btn-primary{background:var(--green);border-color:var(--green);color:#fff}
+  .btn-primary:hover{background:var(--green-d)}
+  .btn-danger{color:var(--red);border-color:#f0c2b8}
+  .btn-danger:hover{background:#fff5f3}
+  .btn-sm{padding:5px 10px;font-size:12.5px;border-radius:7px}
+  .hidden{display:none!important}
+
+  /* Login */
+  #login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+  .login-card{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);width:100%;max-width:380px;padding:32px}
+  .login-card .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;margin-bottom:4px}
+  .login-card .logo img{width:34px;height:34px;border-radius:8px}
+  .login-card h1{font-size:16px;margin:14px 0 2px}
+  .login-card p{color:var(--muted);margin:0 0 20px;font-size:13px}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-weight:600;margin-bottom:6px;font-size:13px}
+  .field input,.field select,.field textarea{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:#fff}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(0,128,96,.12)}
+  .err{color:var(--red);font-size:13px;margin-top:8px;min-height:16px}
+
+  /* App shell */
+  #app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+  .side{background:#1a1a1a;color:#e6e6e6;padding:16px 12px;display:flex;flex-direction:column}
+  .side .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;color:#fff;padding:6px 8px 16px}
+  .side .brand img{width:30px;height:30px;border-radius:7px}
+  .nav a{display:flex;align-items:center;gap:10px;color:#c9c9c9;padding:9px 11px;border-radius:8px;font-weight:600;font-size:13.5px;margin-bottom:2px}
+  .nav a .i{width:18px;text-align:center}
+  .nav a:hover{background:#2a2a2a;color:#fff}
+  .nav a.on{background:#008060;color:#fff}
+  .side .who{margin-top:auto;border-top:1px solid #333;padding-top:12px;font-size:12px;color:#9a9a9a}
+  .side .who b{color:#fff;display:block;font-size:12.5px;word-break:break-all}
+  .side .who button{margin-top:8px;width:100%;background:transparent;border:1px solid #444;color:#ddd;padding:7px;border-radius:7px;font-size:12.5px}
+  .side .who button:hover{background:#2a2a2a}
+
+  .main{padding:26px 30px;overflow:auto}
+  .page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+  .page-head h2{margin:0;font-size:20px}
+  .page-head .sub{color:var(--muted);font-size:13px;margin-top:2px}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:22px}
+  .kpi{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+  .kpi .k{color:var(--muted);font-size:12.5px;font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+  .kpi .v{font-size:26px;font-weight:800;margin-top:6px}
+  .kpi .d{font-size:12px;color:var(--muted);margin-top:2px}
+
+  .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px}
+  .panel .p-head{padding:13px 16px;border-bottom:1px solid var(--line);font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:left;padding:11px 16px;border-bottom:1px solid #f0f0f0;font-size:13.5px;vertical-align:middle}
+  th{background:#fafafa;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.03em;font-weight:700}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:#fcfcfc}
+  .thumb{width:42px;height:42px;border-radius:8px;object-fit:cover;background:#f0f0f0;border:1px solid var(--line)}
+  .tag{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11.5px;font-weight:700}
+  .tag-green{background:#e3f1ed;color:var(--green-d)}
+  .tag-grey{background:#eee;color:#555}
+  .tag-amber{background:#fdf3d8;color:var(--amber)}
+  .tag-red{background:#fdeae7;color:var(--red)}
+  .tag-blue{background:#e6effb;color:var(--blue)}
+  .row-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .muted{color:var(--muted)}
+  .strike{color:var(--muted);text-decoration:line-through;font-size:12px;margin-left:4px}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .toolbar input,.toolbar select{padding:7px 10px;border:1px solid var(--line);border-radius:8px;font-size:13px}
+  .empty{padding:34px;text-align:center;color:var(--muted)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid2 .full{grid-column:1/3}
+
+  /* Modal */
+  .modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.42);display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;z-index:50;overflow:auto}
+  .modal{background:#fff;border-radius:14px;width:100%;max-width:620px;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+  .modal .m-head{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+  .modal .m-head h3{margin:0;font-size:16px}
+  .modal .m-body{padding:20px}
+  .modal .m-foot{padding:14px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px}
+  .m-x{background:none;border:none;font-size:22px;line-height:1;color:#888}
+  .img-preview{width:100%;height:150px;object-fit:contain;background:#f6f6f7;border:1px dashed var(--line);border-radius:8px;margin-top:8px}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:11px 18px;border-radius:9px;font-size:13.5px;box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:100;opacity:0;transition:opacity .2s,transform .2s}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
+  .hint{background:#eef6ff;border:1px solid #cfe3fb;color:#204d80;padding:10px 13px;border-radius:9px;font-size:12.5px;margin-bottom:14px}
+  @media(max-width:820px){#app{grid-template-columns:1fr}.side{flex-direction:row;overflow:auto;position:sticky;top:0;z-index:5}.side .who{display:none}.nav{display:flex;gap:4px}.main{padding:18px}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <form class="login-card" id="loginForm">
+    <div class="logo"><img src="/images/logo.png" alt="" onerror="this.style.display='none'">Salxir</div>
+    <h1>Admin Panel</h1>
+    <p>Sign in to manage your store.</p>
+    <div class="field"><label>Email</label><input type="email" id="li-email" autocomplete="username" required></div>
+    <div class="field"><label>Password</label><input type="password" id="li-pass" autocomplete="current-password" required></div>
+    <button class="btn btn-primary" type="submit" style="width:100%" id="li-btn">Sign in</button>
+    <div class="err" id="li-err"></div>
+  </form>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+  <aside class="side">
+    <div class="brand"><img src="/images/logo.png" alt="" onerror="this.style.display='none'">Salxir</div>
+    <nav class="nav" id="nav">
+      <a data-view="dashboard" class="on"><span class="i">▦</span> Dashboard</a>
+      <a data-view="products"><span class="i">◲</span> Products</a>
+      <a data-view="orders"><span class="i">🧾</span> Orders</a>
+      <a data-view="reviews"><span class="i">★</span> Reviews</a>
+      <a data-view="blog"><span class="i">✎</span> Blog</a>
+      <a data-view="subscribers"><span class="i">✉</span> Subscribers</a>
+      <a data-view="team"><span class="i">◐</span> Team</a>
+    </nav>
+    <div class="who">
+      Signed in as<b id="who-email">—</b>
+      <button id="logout">Sign out</button>
+    </div>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+
+<div id="modal-root"></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://dkorgvcwuzzoykxussac.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_LgTaANSQACtWNI3DbX00Aw_yw40Thix';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let ME = null;            // {email, role}
+let PRODUCTS = [];
+const euro = n => '€' + Number(n||0).toFixed(2);
+const esc = s => (s==null?'':String(s)).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const $ = s => document.querySelector(s);
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2200);}
+function imgSrc(u){if(!u)return '';return /^https?:\/\//.test(u)?u:('/'+u.replace(/^\//,''));}
+
+/* ---------- AUTH ---------- */
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn=$('#li-btn'), err=$('#li-err');
+  err.textContent=''; btn.disabled=true; btn.textContent='Signing in…';
+  const email=$('#li-email').value.trim(), password=$('#li-pass').value;
+  const {data,error}=await sb.auth.signInWithPassword({email,password});
+  if(error){err.textContent=error.message;btn.disabled=false;btn.textContent='Sign in';return;}
+  const ok = await verifyAdmin(data.user);
+  if(!ok){err.textContent='This account is not authorised for the admin panel.';await sb.auth.signOut();btn.disabled=false;btn.textContent='Sign in';return;}
+  enterApp();
+});
+async function verifyAdmin(user){
+  if(!user) return false;
+  const {data}=await sb.from('admin_users').select('email,role').eq('email',user.email).maybeSingle();
+  if(data){ME={email:user.email,role:data.role};return true;}
+  return false;
+}
+$('#logout').addEventListener('click', async ()=>{await sb.auth.signOut();location.reload();});
+
+async function boot(){
+  const {data}=await sb.auth.getSession();
+  if(data.session){const ok=await verifyAdmin(data.session.user);if(ok){enterApp();return;}await sb.auth.signOut();}
+  $('#login').classList.remove('hidden');
+}
+function enterApp(){
+  $('#login').classList.add('hidden');
+  $('#app').classList.remove('hidden');
+  $('#who-email').textContent=ME.email;
+  document.querySelectorAll('#nav a').forEach(a=>a.onclick=()=>go(a.dataset.view));
+  go('dashboard');
+}
+function go(view){
+  document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on',a.dataset.view===view));
+  VIEWS[view]();
+}
+
+/* ---------- helpers ---------- */
+function statusTag(s){const map={active:['tag-green','Active'],inactive:['tag-grey','Inactive'],draft:['tag-amber','Draft'],published:['tag-green','Published'],approved:['tag-green','Approved'],pending:['tag-amber','Pending'],rejected:['tag-red','Rejected']};const [c,l]=map[s]||['tag-grey',s||'—'];return `<span class="tag ${c}">${esc(l)}</span>`;}
+function modal(html){
+  const r=$('#modal-root');
+  r.innerHTML=`<div class="modal-ov"><div class="modal">${html}</div></div>`;
+  const ov=r.querySelector('.modal-ov');
+  ov.addEventListener('click',e=>{if(e.target===ov)closeModal();});
+  const x=r.querySelector('.m-x'); if(x)x.onclick=closeModal;
+  return r;
+}
+function closeModal(){$('#modal-root').innerHTML='';}
+
+/* ============================================================= DASHBOARD */
+const VIEWS={};
+VIEWS.dashboard=async()=>{
+  const main=$('#main');
+  main.innerHTML=`<div class="page-head"><div><h2>Dashboard</h2><div class="sub">Overview of your store</div></div></div>
+    <div class="cards" id="kpis">${Array(6).fill('<div class="kpi"><div class="k">Loading…</div><div class="v">—</div></div>').join('')}</div>
+    <div class="panel"><div class="p-head">Recent orders</div><div id="recent"></div></div>`;
+  const [prod,orders,reviews,subs]=await Promise.all([
+    sb.from('store_products').select('id,status',{count:'exact'}),
+    sb.from('stripe_guest_orders').select('amount_total,currency,order_status,delivery_status,customer_name,customer_email,created_at,items').order('created_at',{ascending:false}),
+    sb.from('customer_reviews').select('id,status'),
+    sb.from('newsletter_subscribers').select('id',{count:'exact'})
+  ]);
+  const prods=prod.data||[], ords=orders.data||[], revs=reviews.data||[];
+  const revenue=ords.filter(o=>o.order_status!=='cancelled').reduce((s,o)=>s+(Number(o.amount_total)||0),0)/100;
+  const kpi=(k,v,d)=>`<div class="kpi"><div class="k">${k}</div><div class="v">${v}</div><div class="d">${d||''}</div></div>`;
+  $('#kpis').innerHTML=[
+    kpi('Products',prods.length,`${prods.filter(p=>p.status==='active').length} active`),
+    kpi('Orders',ords.length,'all time'),
+    kpi('Revenue',euro(revenue),'paid orders'),
+    kpi('Pending reviews',revs.filter(r=>r.status==='pending').length,`${revs.length} total`),
+    kpi('Subscribers',subs.count??0,'newsletter'),
+    kpi('To fulfil',ords.filter(o=>(o.delivery_status||'Processing')!=='Delivered'&&o.order_status!=='cancelled').length,'open orders')
+  ].join('');
+  const recent=ords.slice(0,8);
+  $('#recent').innerHTML=recent.length?`<table><thead><tr><th>Date</th><th>Customer</th><th>Total</th><th>Status</th></tr></thead><tbody>${recent.map(o=>`<tr><td>${new Date(o.created_at).toLocaleDateString('en-GB')}</td><td>${esc(o.customer_name||o.customer_email||'—')}</td><td>${euro((o.amount_total||0)/100)}</td><td>${statusTag(o.order_status||'pending')}</td></tr>`).join('')}</tbody></table>`:'<div class="empty">No orders yet.</div>';
+};
+
+/* ============================================================= PRODUCTS */
+VIEWS.products=async()=>{
+  const main=$('#main');
+  main.innerHTML=`<div class="page-head"><div><h2>Products</h2><div class="sub">Add, edit and remove items shown on salxir.com</div></div>
+    <button class="btn btn-primary" onclick="editProduct()">+ Add product</button></div>
+    <div class="panel"><div class="p-head"><div class="toolbar"><input id="p-search" placeholder="Search products…" oninput="renderProducts()"><select id="p-filter" onchange="renderProducts()"><option value="">All statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select></div><span class="muted" id="p-count"></span></div><div id="p-table"></div></div>`;
+  const {data,error}=await sb.from('store_products').select('*').order('sort_order').order('name');
+  if(error){$('#p-table').innerHTML=`<div class="empty">${esc(error.message)}</div>`;return;}
+  PRODUCTS=data||[]; renderProducts();
+};
+function renderProducts(){
+  const q=($('#p-search')?.value||'').toLowerCase(), f=$('#p-filter')?.value||'';
+  let rows=PRODUCTS.filter(p=>(!f||p.status===f)&&(!q||(p.name||'').toLowerCase().includes(q)||(p.category||'').toLowerCase().includes(q)));
+  $('#p-count').textContent=`${rows.length} of ${PRODUCTS.length}`;
+  $('#p-table').innerHTML=rows.length?`<table><thead><tr><th></th><th>Product</th><th>Price</th><th>Category</th><th>Status</th><th>Stock</th><th></th></tr></thead><tbody>${rows.map(p=>`
+    <tr>
+      <td><img class="thumb" src="${esc(imgSrc(p.image_url))}" onerror="this.style.visibility='hidden'"></td>
+      <td><b>${esc(p.name)}</b><br><span class="muted" style="font-size:12px">${esc(p.slug)}</span></td>
+      <td>${p.quote_only?'<span class="muted">Quote</span>':euro(p.price_amount)}${p.compare_at_price_amount?`<span class="strike">${euro(p.compare_at_price_amount)}</span>`:''}</td>
+      <td>${esc(p.menu_group||p.category||'—')}</td>
+      <td>${statusTag(p.status)}</td>
+      <td>${p.out_of_stock?'<span class="tag tag-red">Out</span>':'<span class="tag tag-green">In stock</span>'}</td>
+      <td><div class="row-actions"><button class="btn btn-sm" onclick="editProduct('${p.id}')">Edit</button><button class="btn btn-sm btn-danger" onclick="deleteProduct('${p.id}','${esc(p.name)}')">Delete</button></div></td>
+    </tr>`).join('')}</tbody></table>`:'<div class="empty">No products match.</div>';
+}
+function editProduct(id){
+  const p=id?PRODUCTS.find(x=>x.id===id):{status:'active',out_of_stock:false,quote_only:false,category:'',menu_group:'Superfoods',sort_order:(PRODUCTS.length+1)*10,stripe_price_id:'price_1TnUKjGjelF8NP3aQG43H0Lk'};
+  modal(`<div class="m-head"><h3>${id?'Edit product':'Add product'}</h3><button class="m-x">×</button></div>
+    <div class="m-body">
+      <div class="grid2">
+        <div class="field full"><label>Name</label><input id="f-name" value="${esc(p.name||'')}"></div>
+        <div class="field"><label>Slug (URL id)</label><input id="f-slug" value="${esc(p.slug||'')}" ${id?'readonly style="background:#f6f6f7"':''}></div>
+        <div class="field"><label>Menu group</label><input id="f-group" value="${esc(p.menu_group||'')}" placeholder="Shilajit / Superfoods…"></div>
+        <div class="field"><label>Price (€)</label><input id="f-price" type="number" step="0.01" value="${p.price_amount??''}"></div>
+        <div class="field"><label>Compare-at price (€)</label><input id="f-compare" type="number" step="0.01" value="${p.compare_at_price_amount??''}"></div>
+        <div class="field"><label>Filter tags (space-separated)</label><input id="f-cat" value="${esc(p.category||'')}" placeholder="shilajit royal easy"></div>
+        <div class="field"><label>Badge (optional)</label><input id="f-badge" value="${esc(p.badge||'')}" placeholder="New / Bestseller"></div>
+        <div class="field full"><label>Short description</label><textarea id="f-desc" rows="2">${esc(p.short_description||'')}</textarea></div>
+        <div class="field"><label>Status</label><select id="f-status"><option value="active"${p.status==='active'?' selected':''}>Active (visible)</option><option value="inactive"${p.status==='inactive'?' selected':''}>Inactive (hidden)</option><option value="draft"${p.status==='draft'?' selected':''}>Draft</option></select></div>
+        <div class="field"><label>Availability</label><select id="f-stock"><option value="false"${!p.out_of_stock?' selected':''}>In stock</option><option value="true"${p.out_of_stock?' selected':''}>Out of stock</option></select></div>
+        <div class="field"><label>Sort order</label><input id="f-sort" type="number" value="${p.sort_order??0}"></div>
+        <div class="field"><label>Stripe price id</label><input id="f-stripe" value="${esc(p.stripe_price_id||'')}"></div>
+        <div class="field full"><label>Image</label>
+          <input id="f-img" value="${esc(p.image_url||'')}" placeholder="images/xyz.png or paste a URL" oninput="document.getElementById('f-imgprev').src=imgSrc(this.value)">
+          <input type="file" accept="image/*" id="f-file" style="margin-top:8px" onchange="uploadImg(this)">
+          <img id="f-imgprev" class="img-preview" src="${esc(imgSrc(p.image_url))}" onerror="this.style.opacity=.2">
+        </div>
+      </div>
+      <div class="err" id="f-err"></div>
+    </div>
+    <div class="m-foot"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="f-save" onclick="saveProduct('${id||''}')">${id?'Save changes':'Create product'}</button></div>`);
+}
+async function uploadImg(input){
+  const file=input.files[0]; if(!file)return;
+  const err=$('#f-err'); err.textContent='Uploading image…';
+  const path=`uploads/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`;
+  const {error}=await sb.storage.from('product-images').upload(path,file,{upsert:true});
+  if(error){err.textContent='Upload failed: '+error.message;return;}
+  const {data}=sb.storage.from('product-images').getPublicUrl(path);
+  $('#f-img').value=data.publicUrl; $('#f-imgprev').src=data.publicUrl; err.textContent='Image uploaded ✓';
+}
+async function saveProduct(id){
+  const err=$('#f-err'), btn=$('#f-save');
+  const name=$('#f-name').value.trim();
+  let slug=$('#f-slug').value.trim();
+  if(!name){err.textContent='Name is required.';return;}
+  if(!slug)slug=name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+  const price=parseFloat($('#f-price').value)||0;
+  const row={
+    name, slug,
+    menu_group:$('#f-group').value.trim()||null,
+    price_amount:price,
+    price_display:price?('€'+price.toFixed(2)):null,
+    compare_at_price_amount:$('#f-compare').value?parseFloat($('#f-compare').value):null,
+    category:$('#f-cat').value.trim()||null,
+    badge:$('#f-badge').value.trim()||null,
+    short_description:$('#f-desc').value.trim()||null,
+    status:$('#f-status').value,
+    out_of_stock:$('#f-stock').value==='true',
+    sort_order:parseInt($('#f-sort').value)||0,
+    stripe_price_id:$('#f-stripe').value.trim()||null,
+    image_url:$('#f-img').value.trim()||null,
+    updated_at:new Date().toISOString()
+  };
+  btn.disabled=true; btn.textContent='Saving…';
+  const res=id?await sb.from('store_products').update(row).eq('id',id):await sb.from('store_products').insert(row);
+  if(res.error){err.textContent=res.error.message;btn.disabled=false;btn.textContent='Save';return;}
+  closeModal(); toast(id?'Product updated':'Product created'); VIEWS.products();
+}
+async function deleteProduct(id,name){
+  if(!confirm(`Delete "${name}"? This removes it from the website.`))return;
+  const {error}=await sb.from('store_products').delete().eq('id',id);
+  if(error){toast('Error: '+error.message);return;}
+  toast('Product deleted'); VIEWS.products();
+}
+
+/* ============================================================= ORDERS */
+VIEWS.orders=async()=>{
+  const main=$('#main');
+  main.innerHTML=`<div class="page-head"><div><h2>Orders</h2><div class="sub">Fulfilment & delivery tracking</div></div></div>
+    <div class="panel"><div class="p-head"><div class="toolbar"><select id="o-filter" onchange="renderOrders()"><option value="">All orders</option><option value="open">Open (to fulfil)</option><option value="Delivered">Delivered</option><option value="cancelled">Cancelled</option></select></div><span class="muted" id="o-count"></span></div><div id="o-table"></div></div>`;
+  const {data,error}=await sb.from('stripe_guest_orders').select('*').order('created_at',{ascending:false});
+  if(error){$('#o-table').innerHTML=`<div class="empty">${esc(error.message)}</div>`;return;}
+  window._ORDERS=data||[]; renderOrders();
+};
+function renderOrders(){
+  const f=$('#o-filter')?.value||'', all=window._ORDERS||[];
+  let rows=all.filter(o=>{if(!f)return true;if(f==='open')return (o.delivery_status||'Processing')!=='Delivered'&&o.order_status!=='cancelled';if(f==='cancelled')return o.order_status==='cancelled';return (o.delivery_status||'')===f;});
+  $('#o-count').textContent=`${rows.length} of ${all.length}`;
+  $('#o-table').innerHTML=rows.length?`<table><thead><tr><th>Date</th><th>Customer</th><th>Items</th><th>Total</th><th>Delivery</th><th>Tracking</th><th></th></tr></thead><tbody>${rows.map(o=>{
+    let items='—'; try{const it=typeof o.items==='string'?JSON.parse(o.items):o.items;if(Array.isArray(it))items=it.map(x=>`${esc(x.name||x.slug)}×${x.quantity||1}`).join(', ');}catch(e){}
+    return `<tr>
+      <td>${new Date(o.created_at).toLocaleDateString('en-GB')}</td>
+      <td><b>${esc(o.customer_name||'—')}</b><br><span class="muted" style="font-size:12px">${esc(o.customer_email||'')}</span></td>
+      <td style="max-width:220px">${items}</td>
+      <td>${euro((o.amount_total||0)/100)}</td>
+      <td>${statusTag((o.delivery_status||'Processing').toLowerCase().includes('deliver')?'approved':'pending')} ${esc(o.delivery_status||'Processing')}</td>
+      <td>${esc(o.tracking_number||'—')}${o.carrier?`<br><span class="muted" style="font-size:12px">${esc(o.carrier)}</span>`:''}</td>
+      <td><div class="row-actions"><button class="btn btn-sm" onclick="editOrder('${o.id}')">Update</button></div></td>
+    </tr>`;}).join('')}</tbody></table>`:'<div class="empty">No orders.</div>';
+}
+function editOrder(id){
+  const o=(window._ORDERS||[]).find(x=>x.id===id); if(!o)return;
+  modal(`<div class="m-head"><h3>Order — ${esc(o.customer_name||o.customer_email||'')}</h3><button class="m-x">×</button></div>
+    <div class="m-body">
+      <p class="muted" style="margin-top:0">${new Date(o.created_at).toLocaleString('en-GB')} · ${euro((o.amount_total||0)/100)} · ${esc((o.delivery_method||'shipping'))}</p>
+      <div class="grid2">
+        <div class="field"><label>Order status</label><select id="o-status">${['pending','paid','fulfilled','cancelled'].map(s=>`<option ${((o.order_status||'pending')===s)?'selected':''}>${s}</option>`).join('')}</select></div>
+        <div class="field"><label>Delivery status</label><select id="o-dstatus">${['Processing','Shipped','Out for delivery','Delivered','Ready for pickup'].map(s=>`<option ${((o.delivery_status||'Processing')===s)?'selected':''}>${s}</option>`).join('')}</select></div>
+        <div class="field"><label>Tracking number</label><input id="o-track" value="${esc(o.tracking_number||'')}"></div>
+        <div class="field"><label>Carrier</label><input id="o-carrier" value="${esc(o.carrier||'')}" placeholder="Posti / DHL…"></div>
+        <div class="field full"><label>Estimated delivery date</label><input id="o-eta" type="date" value="${o.estimated_delivery_date||''}"></div>
+      </div>
+      <div class="err" id="o-err"></div>
+    </div>
+    <div class="m-foot"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="o-save" onclick="saveOrder('${id}')">Save</button></div>`);
+}
+async function saveOrder(id){
+  const btn=$('#o-save'), err=$('#o-err'); btn.disabled=true; btn.textContent='Saving…';
+  const row={order_status:$('#o-status').value,delivery_status:$('#o-dstatus').value,tracking_number:$('#o-track').value.trim()||null,carrier:$('#o-carrier').value.trim()||null,estimated_delivery_date:$('#o-eta').value||null};
+  const {error}=await sb.from('stripe_guest_orders').update(row).eq('id',id);
+  if(error){err.textContent=error.message;btn.disabled=false;btn.textContent='Save';return;}
+  closeModal(); toast('Order updated'); VIEWS.orders();
+}
+
+/* ============================================================= REVIEWS */
+VIEWS.reviews=async()=>{
+  const main=$('#main');
+  main.innerHTML=`<div class="page-head"><div><h2>Reviews</h2><div class="sub">Approve or reject customer reviews before they appear on the site</div></div></div>
+    <div class="panel"><div class="p-head"><div class="toolbar"><select id="r-filter" onchange="renderReviews()"><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option><option value="">All</option></select></div><span class="muted" id="r-count"></span></div><div id="r-table"></div></div>`;
+  const {data,error}=await sb.from('customer_reviews').select('*').order('created_at',{ascending:false});
+  if(error){$('#r-table').innerHTML=`<div class="empty">${esc(error.message)}</div>`;return;}
+  window._REVIEWS=data||[]; renderReviews();
+};
+function renderReviews(){
+  const f=$('#r-filter')?.value, all=window._REVIEWS||[];
+  let rows=all.filter(r=>f===''?true:(r.status||'pending')===f);
+  $('#r-count').textContent=`${rows.length} shown`;
+  $('#r-table').innerHTML=rows.length?`<table><thead><tr><th>Date</th><th>Author</th><th>Rating</th><th>Review</th><th>Status</th><th></th></tr></thead><tbody>${rows.map(r=>`
+    <tr>
+      <td>${new Date(r.created_at).toLocaleDateString('en-GB')}</td>
+      <td><b>${esc(r.author_name||'Anonymous')}</b>${r.author_email?`<br><span class="muted" style="font-size:12px">${esc(r.author_email)}</span>`:''}</td>
+      <td>${'★'.repeat(r.rating||0)}<span class="muted">${'☆'.repeat(5-(r.rating||0))}</span></td>
+      <td style="max-width:320px">${esc(r.review_text||'')}</td>
+      <td>${statusTag(r.status||'pending')}</td>
+      <td><div class="row-actions">${r.status!=='approved'?`<button class="btn btn-sm btn-primary" onclick="setReview('${r.id}','approved')">Approve</button>`:''}${r.status!=='rejected'?`<button class="btn btn-sm btn-danger" onclick="setReview('${r.id}','rejected')">Reject</button>`:''}</div></td>
+    </tr>`).join('')}</tbody></table>`:'<div class="empty">No reviews here.</div>';
+}
+async function setReview(id,status){
+  const {error}=await sb.from('customer_reviews').update({status}).eq('id',id);
+  if(error){toast('Error: '+error.message);return;}
+  toast('Review '+status); VIEWS.reviews();
+}
+
+/* ============================================================= BLOG */
+VIEWS.blog=async()=>{
+  const main=$('#main');
+  main.innerHTML=`<div class="page-head"><div><h2>Blog</h2><div class="sub">Write and publish articles</div></div>
+    <button class="btn btn-primary" onclick="editPost()">+ New post</button></div>
+    <div class="panel"><div id="b-table"><div class="empty">Loading…</div></div></div>`;
+  const {data,error}=await sb.from('blog_posts').select('*').order('published_at',{ascending:false});
+  if(error){$('#b-table').innerHTML=`<div class="empty">${esc(error.message)}</div>`;return;}
+  window._POSTS=data||[];
+  $('#b-table').innerHTML=(data&&data.length)?`<table><thead><tr><th>Title</th><th>Category</th><th>Published</th><th>Status</th><th></th></tr></thead><tbody>${data.map(p=>`
+    <tr><td><b>${esc(p.title)}</b><br><span class="muted" style="font-size:12px">${esc(p.slug)}</span></td>
+    <td>${esc(p.category||'—')}</td><td>${p.published_at||'—'}</td><td>${statusTag(p.status)}</td>
+    <td><div class="row-actions"><button class="btn btn-sm" onclick="editPost('${p.id}')">Edit</button><button class="btn btn-sm btn-danger" onclick="deletePost('${p.id}','${esc(p.title)}')">Delete</button></div></td></tr>`).join('')}</tbody></table>`:'<div class="empty">No posts yet. Create your first article.</div>';
+};
+function editPost(id){
+  const p=id?(window._POSTS||[]).find(x=>x.id===id):{status:'draft',category:'Education',read_time_minutes:5,published_at:new Date().toISOString().slice(0,10)};
+  modal(`<div class="m-head"><h3>${id?'Edit post':'New post'}</h3><button class="m-x">×</button></div>
+    <div class="m-body"><div class="grid2">
+      <div class="field full"><label>Title</label><input id="b-title" value="${esc(p.title||'')}"></div>
+      <div class="field"><label>Slug</label><input id="b-slug" value="${esc(p.slug||'')}" ${id?'readonly style="background:#f6f6f7"':''}></div>
+      <div class="field"><label>Category</label><input id="b-cat" value="${esc(p.category||'Education')}"></div>
+      <div class="field"><label>Published date</label><input id="b-date" type="date" value="${p.published_at||''}"></div>
+      <div class="field"><label>Read time (min)</label><input id="b-read" type="number" value="${p.read_time_minutes||5}"></div>
+      <div class="field full"><label>Featured image URL</label><input id="b-img" value="${esc(p.featured_image||'')}"></div>
+      <div class="field full"><label>Excerpt</label><textarea id="b-excerpt" rows="2">${esc(p.excerpt||'')}</textarea></div>
+      <div class="field full"><label>Content (HTML or text)</label><textarea id="b-content" rows="7">${esc(p.content||'')}</textarea></div>
+      <div class="field"><label>Status</label><select id="b-status"><option value="draft"${p.status==='draft'?' selected':''}>Draft</option><option value="published"${p.status==='published'?' selected':''}>Published</option></select></div>
+      <div class="field"><label>Meta description (SEO)</label><input id="b-meta" value="${esc(p.meta_description||'')}"></div>
+    </div><div class="err" id="b-err"></div></div>
+    <div class="m-foot"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="b-save" onclick="savePost('${id||''}')">Save</button></div>`);
+}
+async function savePost(id){
+  const err=$('#b-err'), btn=$('#b-save');
+  const title=$('#b-title').value.trim(); if(!title){err.textContent='Title required.';return;}
+  let slug=$('#b-slug').value.trim()||title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+  const st=$('#b-status').value;
+  const row={title,slug,category:$('#b-cat').value.trim()||'Education',published_at:$('#b-date').value||new Date().toISOString().slice(0,10),read_time_minutes:parseInt($('#b-read').value)||5,featured_image:$('#b-img').value.trim()||null,excerpt:$('#b-excerpt').value.trim(),content:$('#b-content').value,status:st,published:st==='published',meta_description:$('#b-meta').value.trim(),updated_at:new Date().toISOString()};
+  btn.disabled=true; btn.textContent='Saving…';
+  const res=id?await sb.from('blog_posts').update(row).eq('id',id):await sb.from('blog_posts').insert(row);
+  if(res.error){err.textContent=res.error.message;btn.disabled=false;btn.textContent='Save';return;}
+  closeModal(); toast('Post saved'); VIEWS.blog();
+}
+async function deletePost(id,t){if(!confirm(`Delete "${t}"?`))return;const {error}=await sb.from('blog_posts').delete().eq('id',id);if(error){toast('Error: '+error.message);return;}toast('Post deleted');VIEWS.blog();}
+
+/* ============================================================= SUBSCRIBERS */
+VIEWS.subscribers=async()=>{
+  const main=$('#main');
+  main.innerHTML=`<div class="page-head"><div><h2>Subscribers</h2><div class="sub">Newsletter list</div></div>
+    <button class="btn" onclick="exportSubs()">Export CSV</button></div>
+    <div class="panel"><div id="s-table"><div class="empty">Loading…</div></div></div>`;
+  const {data,error}=await sb.from('newsletter_subscribers').select('*').order('created_at',{ascending:false});
+  if(error){$('#s-table').innerHTML=`<div class="empty">${esc(error.message)}</div>`;return;}
+  window._SUBS=data||[];
+  $('#s-table').innerHTML=(data&&data.length)?`<table><thead><tr><th>Email</th><th>Status</th><th>Joined</th></tr></thead><tbody>${data.map(s=>`<tr><td>${esc(s.email)}</td><td>${statusTag(s.status==='active'?'active':'inactive')}</td><td>${new Date(s.created_at).toLocaleDateString('en-GB')}</td></tr>`).join('')}</tbody></table>`:'<div class="empty">No subscribers yet.</div>';
+};
+function exportSubs(){
+  const rows=window._SUBS||[]; if(!rows.length){toast('Nothing to export');return;}
+  const csv='email,status,created_at\n'+rows.map(s=>`${s.email},${s.status||''},${s.created_at||''}`).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='salxir-subscribers.csv';a.click();
+}
+
+/* ============================================================= TEAM */
+VIEWS.team=async()=>{
+  const main=$('#main');
+  const owner=ME.role==='owner';
+  main.innerHTML=`<div class="page-head"><div><h2>Team</h2><div class="sub">Who can access this admin panel</div></div>
+    ${owner?'<button class="btn btn-primary" onclick="addTeam()">+ Add member</button>':''}</div>
+    <div class="hint">To fully add a teammate: (1) add their email here, and (2) create their login in Supabase → Authentication → Users (email + password, mark as confirmed). Then they can sign in.</div>
+    <div class="panel"><div id="t-table"><div class="empty">Loading…</div></div></div>`;
+  const {data,error}=await sb.from('admin_users').select('*').order('created_at');
+  if(error){$('#t-table').innerHTML=`<div class="empty">${esc(error.message)}</div>`;return;}
+  $('#t-table').innerHTML=`<table><thead><tr><th>Email</th><th>Name</th><th>Role</th><th></th></tr></thead><tbody>${data.map(u=>`<tr><td>${esc(u.email)}</td><td>${esc(u.name||'—')}</td><td>${statusTag(u.role==='owner'?'approved':'pending')} ${esc(u.role)}</td><td>${owner&&u.email!==ME.email?`<div class="row-actions"><button class="btn btn-sm btn-danger" onclick="removeTeam('${u.id}','${esc(u.email)}')">Remove</button></div>`:''}</td></tr>`).join('')}</tbody></table>`;
+};
+function addTeam(){
+  modal(`<div class="m-head"><h3>Add team member</h3><button class="m-x">×</button></div>
+    <div class="m-body"><div class="field"><label>Email</label><input id="t-email" type="email"></div>
+    <div class="field"><label>Name</label><input id="t-name"></div>
+    <div class="field"><label>Role</label><select id="t-role"><option value="staff">Staff</option><option value="owner">Owner</option></select></div>
+    <div class="err" id="t-err"></div></div>
+    <div class="m-foot"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-primary" id="t-save" onclick="saveTeam()">Add</button></div>`);
+}
+async function saveTeam(){
+  const err=$('#t-err'); const email=$('#t-email').value.trim().toLowerCase();
+  if(!email){err.textContent='Email required.';return;}
+  const {error}=await sb.from('admin_users').insert({email,name:$('#t-name').value.trim()||null,role:$('#t-role').value});
+  if(error){err.textContent=error.message;return;}
+  closeModal();toast('Member added — now create their login in Supabase Auth');VIEWS.team();
+}
+async function removeTeam(id,email){if(!confirm(`Remove ${email} from admins?`))return;const {error}=await sb.from('admin_users').delete().eq('id',id);if(error){toast('Error: '+error.message);return;}toast('Member removed');VIEWS.team();}
+
+boot();
+</script>
+</body>
+</html>

@@ -10,22 +10,80 @@
   // Replace priceId per product when real Stripe prices are created.
   var DEFAULT_PRICE_ID = 'price_1TnUKjGjelF8NP3aQG43H0Lk';
 
-  var PRODUCTS = {
-    'shilajit-resin':                    { name: 'Shilajit Resin (20g)',                 price: 15, img: 'images/shilajitresin.png',              priceId: DEFAULT_PRICE_ID },
-    'shilajit-ashwagandha':              { name: 'Shilajit + Ashwagandha Capsules',      price: 10, img: 'images/ShilajitAshwagandhacapsules.png', priceId: DEFAULT_PRICE_ID },
-    'shilajit-honey-sticks':             { name: 'Shilajit Honey Sticks',                price: 15, img: 'images/shilajithoney.png',              priceId: DEFAULT_PRICE_ID },
-    'shilajit-ashwagandha-honey-sticks': { name: 'Shilajit + Ashwagandha Honey Sticks',  price: 18, img: 'images/shilajitashwagandhahoney.png',   priceId: DEFAULT_PRICE_ID },
-    'shilajit-powder-capsules':          { name: 'Shilajit Capsules (Shilajit+)',        price: 15, img: 'images/shilajitcaps.png',               priceId: DEFAULT_PRICE_ID },
-    'shilajit-tablets':                  { name: 'Shilajit Tablets',                     price: 15, img: 'images/shilajittabs.png',               priceId: DEFAULT_PRICE_ID },
-    'pink-salt-table':                   { name: 'Pink Salt, Table Salt',               price: 4,  img: 'images/pinksalt.png',                   priceId: DEFAULT_PRICE_ID },
-    'sea-buckthorn-powder':              { name: 'Sea Buckthorn Powder',                 price: 9,  img: 'images/seabuckpowder.png',              priceId: DEFAULT_PRICE_ID },
-    'moringa-powder':                    { name: 'Moringa Powder',                       price: 9,  img: 'images/moringapowder.png',              priceId: DEFAULT_PRICE_ID },
-    'turmeric-powder':                   { name: 'Salxir Premium Turmeric Powder',       price: 10, img: 'images/turmericpowder.png',             priceId: DEFAULT_PRICE_ID },
-    'tumur-tea':                         { name: 'Tumoro Tea',                           price: 9,  img: 'images/tumorotea.png',                  priceId: DEFAULT_PRICE_ID },
-    'moringa-capsules':                  { name: 'Moringa Capsules',                     price: 12, img: 'images/moringacaps.png',                priceId: DEFAULT_PRICE_ID },
-    'sea-buckthorn-capsules':            { name: 'Sea Buckthorn Capsules',               price: 12, img: 'images/seabuckcaps.png',                priceId: DEFAULT_PRICE_ID },
-    'sea-buckthorn-oil':                 { name: 'Sea Buckthorn Oil',                    price: 15, img: 'images/seabuckoil.png',                 priceId: DEFAULT_PRICE_ID }
+  // Fallback catalog: used only if the live product database can't be reached,
+  // so the shop never breaks. The database (store_products, managed in the admin
+  // panel at /admin) is the source of truth once it loads.
+  var FALLBACK_PRODUCTS = {
+    'shilajit-resin':                    { name: 'Shilajit Resin (20g)',                 price: 15, compare: 35, img: 'images/shilajitresin.png',              cat: 'shilajit',            desc: 'Ancient Himalayan mineral resin for vitality and recovery, 20g jar.', priceId: DEFAULT_PRICE_ID },
+    'shilajit-ashwagandha':              { name: 'Shilajit + Ashwagandha Capsules',      price: 10, compare: 15, img: 'images/ShilajitAshwagandhacapsules.png', cat: 'shilajit royal',      desc: 'Adaptogenic Shilajit and Ashwagandha blend in easy daily capsules.', priceId: DEFAULT_PRICE_ID },
+    'shilajit-honey-sticks':             { name: 'Shilajit Honey Sticks',                price: 15, compare: 18, img: 'images/shilajithoney.png',              cat: 'shilajit easy',       desc: 'Convenient single-serving Shilajit with natural honey.', priceId: DEFAULT_PRICE_ID },
+    'shilajit-ashwagandha-honey-sticks': { name: 'Shilajit + Ashwagandha Honey Sticks',  price: 18, compare: 23, img: 'images/shilajitashwagandhahoney.png',   cat: 'shilajit royal easy', desc: 'Royal blend of Shilajit, Ashwagandha, and natural honey in single-serving sticks.', priceId: DEFAULT_PRICE_ID },
+    'shilajit-powder-capsules':          { name: 'Shilajit Capsules (Shilajit+)',        price: 15, compare: 20, img: 'images/shilajitcaps.png',               cat: 'shilajit easy',       desc: 'Shilajit+, purified Shilajit in an easy daily capsule format.', priceId: DEFAULT_PRICE_ID },
+    'shilajit-tablets':                  { name: 'Shilajit Tablets',                     price: 15, compare: 20, img: 'images/shilajittabs.png',               cat: 'shilajit easy',       desc: 'Portable, precise Shilajit tablets for daily wellness.', priceId: DEFAULT_PRICE_ID },
+    'pink-salt-table':                   { name: 'Pink Salt, Table Salt',                price: 4,  compare: 6,  img: 'images/pinksalt.png',                   cat: 'pinksalt',            desc: 'Ancient mineral-rich Himalayan pink table salt.', priceId: DEFAULT_PRICE_ID },
+    'sea-buckthorn-powder':              { name: 'Sea Buckthorn Powder',                 price: 9,  compare: 12, img: 'images/seabuckpowder.png',              cat: 'superfoods',          desc: 'Bright orange sea buckthorn powder, nutrient-rich support for immunity and skin wellness.', priceId: DEFAULT_PRICE_ID },
+    'moringa-powder':                    { name: 'Moringa Powder',                       price: 9,  compare: 12, img: 'images/moringapowder.png',              cat: 'superfoods',          desc: 'Nutrient-dense moringa leaf powder for daily nutrition.', priceId: DEFAULT_PRICE_ID },
+    'turmeric-powder':                   { name: 'Salxir Premium Turmeric Powder',       price: 10, compare: 13, img: 'images/turmericpowder.png',             cat: 'superfoods',          desc: 'Finely ground golden turmeric from premium roots, for drinks, cooking, and daily wellness.', priceId: DEFAULT_PRICE_ID },
+    'tumur-tea':                         { name: 'Tumoro Tea',                           price: 9,  compare: 13, img: 'images/tumorotea.png',                  cat: 'teas',                desc: 'Traditional herbal tea for daily comfort and wellness.', priceId: DEFAULT_PRICE_ID },
+    'moringa-capsules':                  { name: 'Moringa Capsules',                     price: 12, badge: 'New', img: 'images/moringacaps.png',               cat: 'superfoods',          desc: 'Nutrient-dense moringa leaf in easy daily capsules.', priceId: DEFAULT_PRICE_ID },
+    'sea-buckthorn-capsules':            { name: 'Sea Buckthorn Capsules',               price: 12, badge: 'New', img: 'images/seabuckcaps.png',               cat: 'superfoods',          desc: 'Bioavailable Omega-7 from cold-pressed sea buckthorn in daily capsules.', priceId: DEFAULT_PRICE_ID },
+    'sea-buckthorn-oil':                 { name: 'Sea Buckthorn Oil',                    price: 15, badge: 'New', img: 'images/seabuckoil.png',                cat: 'superfoods',          desc: 'Cold-pressed sea buckthorn oil, rich in Omega-7 for skin and immunity.', priceId: DEFAULT_PRICE_ID }
   };
+
+  // Live catalog, populated from the database on load (falls back to the list above).
+  var PRODUCTS = {};
+  for (var _s in FALLBACK_PRODUCTS) PRODUCTS[_s] = FALLBACK_PRODUCTS[_s];
+
+  // Load products from Supabase (store_products) and rebuild PRODUCTS + any product grids.
+  function loadProducts() {
+    return fetch(SUPABASE_URL + '/rest/v1/store_products?select=*&status=eq.active&order=sort_order.asc', {
+      headers: { apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + SUPABASE_ANON_KEY }
+    }).then(function (r) { return r.json(); }).then(function (rows) {
+      if (!Array.isArray(rows) || !rows.length) return; // keep fallback
+      var map = {};
+      rows.forEach(function (p) {
+        map[p.slug] = {
+          name: p.name,
+          price: Number(p.price_amount) || 0,
+          compare: p.compare_at_price_amount ? Number(p.compare_at_price_amount) : null,
+          img: p.image_url || '',
+          cat: p.category || '',
+          desc: p.short_description || '',
+          badge: p.badge || '',
+          oos: !!p.out_of_stock,
+          priceId: p.stripe_price_id || DEFAULT_PRICE_ID
+        };
+      });
+      PRODUCTS = map;
+    }).catch(function () { /* keep fallback */ });
+  }
+
+  function productCard(slug, p) {
+    var stag = '';
+    if (p.oos) stag = '<span class="stag oos">Out of Stock</span>';
+    else if (p.badge) stag = '<span class="stag"' + (/new/i.test(p.badge) ? ' style="background:var(--c-ashwa)"' : '') + '>' + p.badge + '</span>';
+    else if (p.compare && p.compare > p.price) stag = '<span class="stag">Save ' + Math.round((1 - p.price / p.compare) * 100) + '%</span>';
+    var price = p.oos ? ', ' : (euro(p.price) + (p.compare && p.compare > p.price ? ' <s>' + euro(p.compare) + '</s>' : ''));
+    var btn = p.oos
+      ? '<button class="btn btn-black" disabled style="opacity:.5">Notify Me</button>'
+      : '<button class="btn btn-black add-to-cart" data-slug="' + slug + '">Add to Cart</button>';
+    return '<div class="scard" data-cat="' + (p.cat || '') + '">' +
+      '<div class="scard-img' + (p.oos ? ' oos' : '') + '"><img src="' + p.img + '" alt="' + (p.name || '') + '" loading="lazy"></div>' +
+      '<div class="scard-body">' + stag +
+      '<h3>' + (p.name || '') + '</h3>' +
+      '<p>' + (p.desc || '') + '</p>' +
+      '<div class="sprice">' + price + '</div>' + btn +
+      '</div></div>';
+  }
+
+  // Render any grid marked data-products-grid using the live catalog.
+  function renderProductGrids() {
+    var grids = document.querySelectorAll('[data-products-grid]');
+    if (!grids.length) return;
+    var slugs = Object.keys(PRODUCTS);
+    var html = slugs.map(function (slug) { return productCard(slug, PRODUCTS[slug]); }).join('');
+    grids.forEach(function (g) { g.innerHTML = html; });
+  }
 
   var KEY = 'salxir_cart';
 
@@ -75,7 +133,7 @@
     }
     if (form) form.style.display = '';
     var subtotal = 0;
-    var rows = slugs.map(function (slug) {
+    var rows = slugs.filter(function (slug) { return PRODUCTS[slug]; }).map(function (slug) {
       var p = PRODUCTS[slug];
       var line = p.price * c[slug];
       subtotal += line;
@@ -159,17 +217,25 @@
   }
 
   /* ---- init ---- */
+  // Event delegation so both static and DB-rendered "Add to Cart" buttons work.
+  function bindAddToCart() {
+    document.addEventListener('click', function (e) {
+      var btn = e.target && e.target.closest ? e.target.closest('.add-to-cart[data-slug]') : null;
+      if (!btn) return;
+      addToCart(btn.dataset.slug);
+      var t = btn.textContent;
+      btn.textContent = 'Added ✓';
+      setTimeout(function () { btn.textContent = t; }, 1200);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     updateBadge();
-    document.querySelectorAll('.add-to-cart[data-slug]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        addToCart(btn.dataset.slug);
-        var t = btn.textContent;
-        btn.textContent = 'Added ✓';
-        setTimeout(function () { btn.textContent = t; }, 1200);
-      });
+    bindAddToCart();
+    loadProducts().then(function () {
+      renderProductGrids();
+      renderCartPage();
     });
-    renderCartPage();
     var form = document.getElementById('checkout-form');
     if (form) form.addEventListener('submit', checkout);
     // success page: clear cart
