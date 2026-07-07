@@ -316,8 +316,8 @@ footer{background:var(--black);color:#b5b5b5;padding:64px 0 30px;font-size:14px}
 .tool-price .tp-main em{font-size:16px;font-weight:600;font-style:normal;opacity:.85}
 .tool-price .tp-sub{font-size:13.5px;font-weight:500;opacity:.9;display:block;margin-top:4px}
 .tool-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-.btn-subscribe{background:#fff;color:#1a1a1a}
-.btn-subscribe:hover{background:#f0f0f0}
+.btn-subscribe{background:#fff;color:#1a1a1a;padding:15px 34px;font-size:14px;letter-spacing:.08em;font-weight:700;text-transform:uppercase}
+.btn-subscribe:hover{background:#ececec}
 @media(max-width:900px){.tool-cta{justify-content:center}}
 
 /* for businesses */
