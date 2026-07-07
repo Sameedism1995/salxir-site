@@ -310,7 +310,11 @@ footer{background:var(--black);color:#b5b5b5;padding:64px 0 30px;font-size:14px}
 .contact-row{display:flex;gap:10px;align-items:center}
 .contact-row code{flex:1;background:var(--cream);border-radius:10px;padding:14px 16px;font-size:15px;font-weight:600}
 .btn-sm{padding:11px 24px;font-size:13px}
-.tool-img{width:min(300px,100%);border-radius:16px;box-shadow:0 16px 34px rgba(0,0,0,.25)}
+.tool-img{width:min(400px,100%);border-radius:16px;box-shadow:0 16px 34px rgba(0,0,0,.25)}
+.tool-price{margin-bottom:22px}
+.tool-price .tp-main{font-size:30px;font-weight:800;display:block;line-height:1.1}
+.tool-price .tp-main em{font-size:16px;font-weight:600;font-style:normal;opacity:.85}
+.tool-price .tp-sub{font-size:13.5px;font-weight:500;opacity:.9;display:block;margin-top:4px}
 
 /* for businesses */
 .biz-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:44px;align-items:start}
