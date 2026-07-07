@@ -451,3 +451,49 @@
     bindReview();
   });
 })();
+
+/* ---- mobile navigation (hamburger) ---- */
+(function () {
+  'use strict';
+  function initMobileNav() {
+    var nav = document.querySelector('header .nav');
+    if (!nav) return;
+    var links = nav.querySelector('.nav-links');
+    if (!links || nav.querySelector('.nav-toggle')) return;
+
+    var backdrop = document.createElement('div');
+    backdrop.className = 'menu-backdrop';
+
+    var menu = document.createElement('nav');
+    menu.className = 'mobile-menu';
+    menu.setAttribute('aria-label', 'Mobile menu');
+    menu.innerHTML = links.innerHTML;
+
+    var btn = document.createElement('button');
+    btn.className = 'nav-toggle';
+    btn.setAttribute('aria-label', 'Toggle menu');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.innerHTML = '<span></span><span></span><span></span>';
+
+    function close() {
+      document.body.classList.remove('menu-open');
+      btn.classList.remove('on');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+    function toggle() {
+      var open = document.body.classList.toggle('menu-open');
+      btn.classList.toggle('on', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    btn.addEventListener('click', toggle);
+    backdrop.addEventListener('click', close);
+    menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+
+    nav.appendChild(btn);
+    document.body.appendChild(menu);
+    document.body.appendChild(backdrop);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initMobileNav);
+  else initMobileNav();
+})();

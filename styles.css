@@ -335,3 +335,44 @@ footer{background:var(--black);color:#b5b5b5;padding:64px 0 30px;font-size:14px}
 .tt-arrow{font-size:56px;line-height:1;flex:none;transition:.25s}
 .tools-teaser:hover .tt-arrow{transform:translateX(8px)}
 @media(max-width:600px){.tools-teaser{padding:36px 28px}}
+
+/* ===== mobile navigation + responsive polish ===== */
+html,body{overflow-x:hidden}
+.nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;background:none;border:none;cursor:pointer;padding:9px;margin-left:4px}
+.nav-toggle span{display:block;height:2.5px;width:100%;background:var(--black);border-radius:2px;transition:.25s}
+.nav-toggle.on span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.nav-toggle.on span:nth-child(2){opacity:0}
+.nav-toggle.on span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:0;right:0;bottom:0;width:min(80vw,320px);background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,.16);z-index:200;padding:86px 26px 28px;transform:translateX(100%);transition:transform .28s ease;overflow-y:auto}
+.mobile-menu a{display:block;font-size:18px;font-weight:600;padding:15px 0;border-bottom:1px solid #eee;color:var(--black)}
+.mobile-menu a:hover,.mobile-menu a.on{color:var(--red)}
+body.menu-open{overflow:hidden}
+body.menu-open .mobile-menu{transform:translateX(0)}
+.menu-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:150}
+body.menu-open .menu-backdrop{display:block}
+
+@media(max-width:920px){
+  .nav-toggle{display:flex}
+  .mobile-menu{display:block}
+}
+@media(max-width:600px){
+  .wrap{padding:0 16px}
+  .nav{height:58px}
+  .logo{font-size:22px}
+  .logo img{height:28px;width:28px}
+  .nav-right{gap:10px}
+  .nav-right .btn-black{padding:9px 15px;font-size:12.5px}
+  .announce{font-size:12px;padding:10px 12px;letter-spacing:.02em}
+  .page-hero{padding:46px 0}
+  .reviews,.discover,.news{padding:54px 0}
+  .risk{padding:52px 0}
+  .prose{padding:48px 16px}
+  .cta-band{padding:40px 26px}
+  .tool-card{padding:34px 24px}
+  .rail{padding:6px 16px 24px}
+  .pcard{padding:34px 24px}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:26px}
+}
+@media(max-width:400px){
+  .foot-grid{grid-template-columns:1fr}
+}
