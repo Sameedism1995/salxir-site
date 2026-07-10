@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /polish-agent/
+Disallow: /finnish-agent/
+Disallow: /cart
+
+Sitemap: https://salxir.com/sitemap.xml
