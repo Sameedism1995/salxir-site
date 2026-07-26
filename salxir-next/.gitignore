@@ -1,0 +1,15 @@
+/node_modules
+/.next
+/out
+/build
+.DS_Store
+*.pem
+npm-debug.log*
+.env*.local
+.vercel
+.vercel-deploy.local
+.deploy-tools/
+*.tsbuildinfo
+next-env.d.ts
+.vercel-token
+.google-sa.json

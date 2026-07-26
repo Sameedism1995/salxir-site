@@ -1,0 +1,5 @@
+.vercel-token
+*.log
+node_modules
+.next
+.google-sa.json

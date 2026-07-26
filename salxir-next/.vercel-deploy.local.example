@@ -1,0 +1,10 @@
+# Vercel deploy token for the automated weekly blog task.
+#
+# 1. Go to https://vercel.com/account/settings/tokens
+# 2. Create a token. Scope it to the "salxir-global" team. Set expiration to
+#    "No Expiration" (or 1 year) so the weekly task keeps working.
+# 3. Copy this file to ".vercel-deploy.local" (same folder) and paste the token below.
+#
+# The real ".vercel-deploy.local" file is gitignored and never committed.
+
+VERCEL_TOKEN=paste_your_token_here
