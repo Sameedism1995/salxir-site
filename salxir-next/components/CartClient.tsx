@@ -7,7 +7,6 @@ import {
   loadProducts,
   euro,
   FALLBACK_PRODUCTS,
-  DEFAULT_PRICE_ID,
   SUPABASE_URL,
   SUPABASE_ANON_KEY,
   type Product,
@@ -46,10 +45,23 @@ export default function CartClient() {
       setMsg('Please fill in your name and email.');
       return;
     }
-    const totalQty = slugs.reduce((n, s) => n + cart[s], 0);
+    // One line item per product, each with its own Stripe price. Previously a
+    // single price id was sent for the whole basket, so every item billed at the
+    // same flat amount regardless of what it actually costs.
+    const line_items = slugs
+      .map((s) => ({
+        price_id: products[s].priceId,
+        quantity: Math.max(1, Math.floor(cart[s])),
+      }))
+      .filter((li) => Boolean(li.price_id));
+
+    if (line_items.length !== slugs.length) {
+      setMsg('Some items are unavailable right now. Please contact hello@salxir.com.');
+      return;
+    }
+
     const payload = {
-      price_id: DEFAULT_PRICE_ID,
-      quantity: totalQty,
+      line_items,
       success_url: window.location.origin + '/success',
       cancel_url: window.location.origin + '/cart',
       mode: 'payment',
