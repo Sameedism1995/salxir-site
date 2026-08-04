@@ -3,6 +3,7 @@ import Script from 'next/script';
 import { Poppins } from 'next/font/google';
 import './globals.css';
 import Analytics from '@/components/Analytics';
+import ConsentBanner from '@/components/ConsentBanner';
 import { CartProvider } from '@/components/CartProvider';
 import { LocaleProvider } from '@/components/i18n/LocaleProvider';
 import { getI18n } from '@/lib/i18n/server';
@@ -75,8 +76,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
         <LocaleProvider initialLocale={locale} initialCurrency={currency}>
           <CartProvider>{children}</CartProvider>
+          {/* Inside LocaleProvider: the banner is localized via useI18n(). */}
+          <ConsentBanner />
         </LocaleProvider>
-        {/* GA4 base tag + App Router pageviews. No-ops without a measurement id. */}
+        {/* GA4 + Pixel + Clarity, gated on consent. Each no-ops without its id. */}
         <Analytics />
         {/* Trustpilot widget bootstrap (loads once, powers TrustBox widgets). */}
         <Script
