@@ -4,8 +4,10 @@ import PageShell from '@/components/PageShell';
 import PageHero from '@/components/PageHero';
 import Newsletter from '@/components/Newsletter';
 import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd';
+import { AuthorByline, AuthorBio } from '@/components/AuthorByline';
 import { pageMetadata } from '@/lib/seo';
 import { getAllPosts, getPost, formatDate } from '@/lib/blog';
+import { getAuthor } from '@/lib/authors';
 
 export function generateStaticParams() {
   return getAllPosts().map((p) => ({ slug: p.slug }));
@@ -33,16 +35,30 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const post = getPost(slug);
   if (!post) notFound();
 
+  const author = getAuthor(post.author);
+
   const articleJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.description,
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: post.updated ?? post.date,
     keywords: post.keywords.join(', '),
-    author: { '@type': 'Organization', name: 'Salxir' },
-    publisher: { '@type': 'Organization', name: 'Salxir', logo: { '@type': 'ImageObject', url: 'https://salxir.com/images/logo.png' } },
+    // A named Person, not the Organization. Health content is YMYL and Google
+    // weights an identifiable, verifiable author.
+    author: {
+      '@type': 'Person',
+      name: author.name,
+      jobTitle: author.role,
+      ...(author.url ? { url: author.url } : {}),
+      ...(author.sameAs?.length ? { sameAs: author.sameAs } : {}),
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Salxir',
+      logo: { '@type': 'ImageObject', url: 'https://salxir.com/images/logo.png' },
+    },
     mainEntityOfPage: { '@type': 'WebPage', '@id': `https://salxir.com/blog/${post.slug}` },
   };
 
@@ -62,7 +78,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       </PageHero>
 
       <article className="prose" style={{ maxWidth: 760, margin: '0 auto' }}>
+        <AuthorByline authorId={post.author} date={post.date} updated={post.updated} />
         <div dangerouslySetInnerHTML={{ __html: post.bodyHtml }} />
+        <AuthorBio authorId={post.author} />
       </article>
 
       <Newsletter heading="Never Miss an Article" copy="One useful, evidence-first article a week. No noise." cream />
