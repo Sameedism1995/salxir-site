@@ -12,11 +12,11 @@ import { pageMetadata } from '@/lib/seo';
  * The published batch reports are the differentiator, so the page leads with
  * them and gives the reader a test they can run on a jar they already own.
  *
- * No logistics detail by design — ordering is "order, doorstep, done".
+ * No logistics detail by design. Ordering is "order, doorstep, done".
  *
  * Claim-light: shilajit is a food supplement under retained Regulation (EC)
- * 1924/2006 in the UK, so this talks about sourcing, testing and spelling —
- * never about what the product does to your body.
+ * 1924/2006 in the UK, so this talks about sourcing, testing and spelling.
+ * It never mentions what the product does to your body.
  *
  * Internal links use next/link: @next/next/no-html-link-for-pages is
  * error-level here and a bare <a> to an internal route fails the build.
@@ -24,12 +24,12 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'Where to Buy Shilajit in the UK | Lab-Tested Resin | Salxir',
   description:
-    'Where to buy real shilajit in the UK. Every batch tested, every report published — read them before you buy. Ordered from Salxir, delivered to your door.',
+    'Where to buy real shilajit in the UK. Every batch tested, every report published. Read them before you buy. Ordered from Salxir, delivered to your door.',
   socialTitle: 'Where to Buy Shilajit in the UK',
   socialDescription:
     'Every batch tested. Every report published. Read them before you buy, not after.',
   path: '/where-to-buy-shilajit-uk',
-  imageAlt: 'Where to buy shilajit in the UK — Salxir',
+  imageAlt: 'Where to buy shilajit in the UK, from Salxir',
   keywords: [
     'where to buy shilajit uk',
     'buy shilajit uk',
@@ -49,11 +49,11 @@ const FAQ = [
   },
   {
     q: 'How do I know shilajit is genuine?',
-    a: 'Drop a pea-sized piece into warm water — tea temperature, not boiling — and stir. Real purified resin dissolves completely in under a minute and turns the water a deep amber-brown. Grit at the bottom or pieces that will not dissolve mean it was not purified properly.',
+    a: 'Drop a pea-sized piece into warm water at tea temperature, not boiling, and stir. Real purified resin dissolves completely in under a minute and turns the water a deep amber-brown. Grit at the bottom or pieces that will not dissolve mean it was not purified properly.',
   },
   {
     q: 'Is salajeet the same as shilajit?',
-    a: 'Yes. They are different transliterations of the same word — salajeet is the Urdu-derived spelling, shilajit the Sanskrit-derived one. Same resin.',
+    a: 'Yes. They are different transliterations of the same word. Salajeet is the Urdu-derived spelling, shilajit the Sanskrit-derived one. Same resin.',
   },
   {
     q: 'How much shilajit should I take?',
@@ -61,7 +61,7 @@ const FAQ = [
   },
   {
     q: 'Can I see the lab results before I buy?',
-    a: 'Yes. Every batch certificate is published in full on our About page — downloadable, no signup required.',
+    a: 'Yes. Every batch certificate is published in full on our About page, downloadable, no signup required.',
   },
   {
     q: 'Is shilajit legal to buy in the UK?',
@@ -118,7 +118,7 @@ export default function WhereToBuyShilajitUkPage() {
           has had a very good decade on the internet.
         </p>
         <p>
-          The version that reaches you should be purified, tested, and boring in the best way —
+          The version that reaches you should be purified, tested, and boring in the best way:
           consistent jar to jar, dissolving cleanly, tasting the same in March as it did in January.
           That consistency is the entire job. It is less exciting than the marketing, and it is the
           only thing that matters.
@@ -127,7 +127,7 @@ export default function WhereToBuyShilajitUkPage() {
         <h2>How to tell real from filler, in about a minute</h2>
         <p>You do not need us for this. Try it on whatever you already own.</p>
         <p>
-          Drop a pea-sized piece into warm water — tea temperature, not boiling. Stir. Real purified
+          Drop a pea-sized piece into warm water at tea temperature, not boiling. Stir. Real purified
           resin goes fully into solution in under a minute and turns the water a deep amber-brown.
           Nothing settles. Nothing floats.
         </p>
@@ -141,7 +141,7 @@ export default function WhereToBuyShilajitUkPage() {
 
         <h2>Why we publish everything</h2>
         <p>
-          Most brands treat lab reports as a marketing asset — a badge, a blurred thumbnail, a
+          Most brands treat lab reports as a marketing asset. A badge, a blurred thumbnail, a
           certificate from a batch that sold out two years ago.
         </p>
         <p>
@@ -157,7 +157,7 @@ export default function WhereToBuyShilajitUkPage() {
 
         <h2>If you know it as salajeet</h2>
         <p>
-          Plenty of our UK customers grew up calling it <strong>salajeet</strong>, not shilajit —
+          Plenty of our UK customers grew up calling it <strong>salajeet</strong> rather than shilajit,
           particularly in British Pakistani households. Same resin, different spelling. Salajeet
           comes through Urdu, shilajit through Sanskrit and Hindi, and neither is more authentic than
           the other. Worth searching both when you are comparing prices, because you will turn up two
@@ -195,7 +195,7 @@ export default function WhereToBuyShilajitUkPage() {
 
         <h2>Everyone says pure. We publish.</h2>
         <p>
-          <Link href="/about#certificates">Read the reports first</Link> — then decide. New to it?
+          <Link href="/about#certificates">Read the reports first</Link>, then decide. New to it?
           Start with <Link href="/blog/how-to-take-shilajit">how to take shilajit</Link>.
           #WithLoveFromEarth
         </p>
