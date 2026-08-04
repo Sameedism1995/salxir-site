@@ -7,6 +7,10 @@ export interface BlogPost {
   description: string;
   category: string;
   date: string; // ISO yyyy-mm-dd
+  /** ISO yyyy-mm-dd. Set when a post is materially revised. */
+  updated?: string;
+  /** Author key from lib/authors.ts. Defaults to the site's default author. */
+  author?: string;
   readingTime: string; // e.g. "6 min"
   keywords: string[];
   bodyHtml: string; // sanitized HTML body
