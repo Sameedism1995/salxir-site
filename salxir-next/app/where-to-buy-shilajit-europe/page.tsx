@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import PageShell from '@/components/PageShell';
 import PageHero from '@/components/PageHero';
 import RiskBand from '@/components/RiskBand';
@@ -96,7 +97,7 @@ export default function WhereToBuyShilajitEuropePage() {
           are about to receive. Raw shilajit can carry lead, arsenic and cadmium picked up from the
           rock it forms in, and purification is precisely the step that removes them. A heavy metals
           report tied to a batch number is the only real evidence that step happened. Ours are all{' '}
-          <a href="/about#certificates">published on our About page</a>, downloadable, no email
+          <Link href="/about#certificates">published on our About page</Link>, downloadable, no email
           required.
         </p>
 
@@ -125,7 +126,7 @@ export default function WhereToBuyShilajitEuropePage() {
           Honey sticks pre-portion it entirely. None is more authentic than another — they are the
           same purified resin in different packaging, and the right one is whichever you will
           actually keep using. Our{' '}
-          <a href="/blog/shilajit-resin-vs-capsules">resin vs capsules comparison</a> goes through
+          <Link href="/blog/shilajit-resin-vs-capsules">resin vs capsules comparison</Link> goes through
           the trade-offs properly.
         </p>
 
@@ -146,10 +147,10 @@ export default function WhereToBuyShilajitEuropePage() {
 
         <h2>Buy shilajit from Salxir</h2>
         <p>
-          Browse the <a href="/shop">full range</a>, or go straight to the{' '}
-          <a href="/products/shilajit-resin">pure Himalayan shilajit resin</a> if you want the
+          Browse the <Link href="/shop">full range</Link>, or go straight to the{' '}
+          <Link href="/products/shilajit-resin">pure Himalayan shilajit resin</Link> if you want the
           traditional format. New to it? Start with{' '}
-          <a href="/blog/how-to-take-shilajit">how to take shilajit</a>. #WithLoveFromEarth
+          <Link href="/blog/how-to-take-shilajit">how to take shilajit</Link>. #WithLoveFromEarth
         </p>
 
         <p>
