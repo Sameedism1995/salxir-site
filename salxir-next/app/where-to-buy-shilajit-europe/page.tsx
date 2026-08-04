@@ -12,8 +12,8 @@ import { pageMetadata } from '@/lib/seo';
  * else on the page is written for the reader, not the crawler.
  *
  * Deliberately claim-light: shilajit is a food supplement under Regulation (EC)
- * 1924/2006, so this page talks about sourcing, testing and shipping — never
- * about what the product does to your body.
+ * 1924/2006, so this page talks about sourcing, testing and shipping. It never
+ * mentions what the product does to your body.
  */
 export const metadata = pageMetadata({
   title: 'Where to Buy Shilajit in Europe | Lab-Tested Resin, EU Shipping | Salxir',
@@ -21,9 +21,9 @@ export const metadata = pageMetadata({
     'Where to buy genuine shilajit in Europe without customs charges or guesswork. Shipped from Finland inside the EU, with the lab report for every batch published in full.',
   socialTitle: 'Where to Buy Shilajit in Europe',
   socialDescription:
-    'Genuine shilajit shipped from Finland — inside the EU, no customs, lab reports published for every batch.',
+    'Genuine shilajit shipped from Finland, inside the EU. No customs. Lab reports published for every batch.',
   path: '/where-to-buy-shilajit-europe',
-  imageAlt: 'Where to buy shilajit in Europe — Salxir',
+  imageAlt: 'Where to buy shilajit in Europe, from Salxir',
   keywords: [
     'where to buy shilajit',
     'where to buy shilajit europe',
@@ -43,7 +43,7 @@ const FAQ = [
   },
   {
     q: 'Will I pay customs charges on shilajit ordered within the EU?',
-    a: 'No. Orders shipped from Finland to another EU member state move within the single market, so there is no import duty and no customs handling fee. Orders arriving into the EU from outside it — including many sellers shipping from India, Pakistan or the United States — can attract import VAT and a courier handling charge.',
+    a: 'No. Orders shipped from Finland to another EU member state move within the single market, so there is no import duty and no customs handling fee. Orders arriving into the EU from outside it, including many sellers shipping from India, Pakistan or the United States, can attract import VAT and a courier handling charge.',
   },
   {
     q: 'How do I know shilajit is real and not a substitute?',
@@ -85,7 +85,7 @@ export default function WhereToBuyShilajitEuropePage() {
           Buying shilajit in Europe is less about finding a seller than about finding one who will
           show you their paperwork. The resin itself is a mineral-dense substance collected at
           altitude, and the difference between a good jar and a bad one is not something you can
-          judge by the photograph. It comes down to purification and testing — which means it comes
+          judge by the photograph. It comes down to purification and testing, which means it comes
           down to whether the seller publishes results.
         </p>
 
@@ -104,10 +104,10 @@ export default function WhereToBuyShilajitEuropePage() {
         <h3>2. Where it actually ships from</h3>
         <p>
           This is the detail most buyers discover too late. A parcel entering the EU from outside it
-          can attract import VAT plus a courier handling fee, often €15–25, payable before the
+          can attract import VAT plus a courier handling fee, often €15 to €25, payable before the
           courier will release your order. A listing that looks cheaper than everything else is
           frequently a listing that ships from outside the customs union. Salxir ships from Finland,
-          so anything going to an EU address stays inside the single market — no duty, no handling
+          so anything going to an EU address stays inside the single market. No duty, no handling
           charge, no surprise invoice on the doorstep.
         </p>
 
@@ -123,7 +123,7 @@ export default function WhereToBuyShilajitEuropePage() {
         <p>
           Resin is the traditional format and the one that lets you adjust your own serving.
           Capsules and tablets fix the amount per serving and remove the weighing-by-eye problem.
-          Honey sticks pre-portion it entirely. None is more authentic than another — they are the
+          Honey sticks pre-portion it entirely. None is more authentic than another. They are the
           same purified resin in different packaging, and the right one is whichever you will
           actually keep using. Our{' '}
           <Link href="/blog/shilajit-resin-vs-capsules">resin vs capsules comparison</Link> goes through
