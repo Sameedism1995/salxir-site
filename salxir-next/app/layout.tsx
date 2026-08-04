@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import { Poppins } from 'next/font/google';
 import './globals.css';
+import Analytics from '@/components/Analytics';
 import { CartProvider } from '@/components/CartProvider';
 import { LocaleProvider } from '@/components/i18n/LocaleProvider';
 import { getI18n } from '@/lib/i18n/server';
@@ -75,6 +76,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <LocaleProvider initialLocale={locale} initialCurrency={currency}>
           <CartProvider>{children}</CartProvider>
         </LocaleProvider>
+        {/* GA4 base tag + App Router pageviews. No-ops without a measurement id. */}
+        <Analytics />
         {/* Trustpilot widget bootstrap (loads once, powers TrustBox widgets). */}
         <Script
           src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"

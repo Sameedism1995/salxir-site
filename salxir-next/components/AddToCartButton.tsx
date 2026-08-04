@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useCart } from '@/components/CartProvider';
 import { useI18n } from '@/components/i18n/LocaleProvider';
+import { trackAddToCart } from '@/lib/analytics';
 
 /**
  * "Add to Cart" button with the transient "Added ✓" confirmation. Label is
@@ -36,6 +37,8 @@ export default function AddToCartButton({
       data-slug={slug}
       onClick={() => {
         add(slug);
+        // Fire-and-forget: never let a slow catalog lookup delay the UI.
+        void trackAddToCart(slug);
         setLabel(dict.common.added);
         if (timer.current) clearTimeout(timer.current);
         timer.current = setTimeout(() => setLabel(defaultLabel), 1200);

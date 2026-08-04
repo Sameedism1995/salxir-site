@@ -11,6 +11,13 @@ import {
   SUPABASE_ANON_KEY,
   type Product,
 } from '@/lib/products';
+import {
+  GA_CURRENCY,
+  gaEvent,
+  newTransactionId,
+  stashPendingOrder,
+  toGaItem,
+} from '@/lib/analytics';
 
 /** Cart line items + Stripe checkout form. Ported from cart.js renderCartPage()/checkout(). */
 export default function CartClient() {
@@ -74,6 +81,22 @@ export default function CartClient() {
         ),
       },
     };
+    // Measurement: record the intent now, and snapshot the basket so /success
+    // can report the purchase -- Stripe returns to a bare /success URL that
+    // carries no order data of its own.
+    const gaItems = slugs.map((s) => toGaItem(s, products[s], cart[s]));
+    const gaValue = Math.round(subtotal * 100) / 100;
+    gaEvent('begin_checkout', {
+      currency: GA_CURRENCY,
+      value: gaValue,
+      items: gaItems,
+    });
+    stashPendingOrder({
+      transaction_id: newTransactionId(),
+      value: gaValue,
+      items: gaItems,
+    });
+
     setBusy(true);
     setBtnLabel('Redirecting to secure payment…');
     setMsg('');
