@@ -131,7 +131,10 @@ export default function Analytics() {
       ) : null}
 
       {CLARITY_ID && analyticsOk ? (
-        <Script id="clarity" strategy="afterInteractive">
+        {/* id must NOT be "clarity": an element id becomes a window property,
+            so window.clarity would resolve to this <script> element and the
+            snippet's `c[a] = c[a] || function(){}` stub would never be created. */}
+        <Script id="ms-clarity" strategy="afterInteractive">
           {`
             (function(c,l,a,r,i,t,y){
               c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
