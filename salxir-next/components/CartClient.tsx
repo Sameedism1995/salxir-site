@@ -112,6 +112,21 @@ export default function CartClient() {
       });
       const d = await r.json();
       if (!r.ok || !d.url) throw new Error(d.error || 'Checkout failed');
+      // Save a lightweight order record for the Google Customer Reviews
+      // opt-in on /success (read + cleared by GoogleReviewsOptIn.tsx).
+      try {
+        window.localStorage.setItem(
+          'salxir_gcr_order',
+          JSON.stringify({
+            id: 'SLX-' + Date.now().toString(36).toUpperCase(),
+            email: email.trim(),
+            delivery,
+            ts: Date.now(),
+          })
+        );
+      } catch {
+        /* storage unavailable — skip review opt-in */
+      }
       window.location.replace(d.url);
     } catch (err) {
       setBusy(false);

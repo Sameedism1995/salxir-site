@@ -10,7 +10,7 @@ import { getPageContent } from '@/lib/i18n/pageContent';
 export const metadata = pageMetadata({
   title: 'About Salxir | Pure Shilajit Brand from Finland',
   description:
-    "Learn about Salxir's story: a Finnish wellness brand connecting pristine natural origins with Nordic quality standards. Lab-tested Shilajit, transparent sourcing, #WithLoveFromEarth.",
+    "Salxir is a Finnish wellness brand sourcing pure Himalayan Shilajit. Every batch is third-party lab-tested for heavy metals, with certificates you can read.",
   socialDescription:
     "Learn about Salxir's story: a Finnish wellness brand connecting pristine natural origins with Nordic quality standards. Lab-tested Shilajit, transparent sourcing.",
   twitterDescription:

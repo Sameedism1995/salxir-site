@@ -28,8 +28,10 @@ export async function generateMetadata({
   if (!p) return {};
   const priceNote = p.price === null ? '' : ` €${p.price.toFixed(2)}.`;
   return pageMetadata({
-    title: `${p.name} | Salxir`,
-    description: `${p.blurb}${priceNote}`.slice(0, 300),
+    title: p.seoTitle ?? `${p.name} | Salxir`,
+    description: p.metaDescription
+      ? `${p.metaDescription}${priceNote}`
+      : `${p.blurb}${priceNote}`.slice(0, 300),
     socialTitle: p.name,
     path: `/products/${p.slug}`,
     image: p.img,

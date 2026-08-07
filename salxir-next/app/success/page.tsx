@@ -4,6 +4,7 @@ import AnnouncementBar from '@/components/AnnouncementBar';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SuccessClearCart from '@/components/SuccessClearCart';
+import GoogleReviewsOptIn from '@/components/GoogleReviewsOptIn';
 
 export const metadata: Metadata = {
   title: 'Order Confirmed | Salxir | With Love, From Earth',
@@ -16,6 +17,7 @@ export default function SuccessPage() {
       <AnnouncementBar />
       <Navbar />
       <SuccessClearCart />
+      <GoogleReviewsOptIn />
 
       <section
         className="page-hero"

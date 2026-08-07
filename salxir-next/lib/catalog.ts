@@ -13,6 +13,13 @@ export interface CatalogProduct {
   alt: string;
   /** Long description shown on the card and detail page. */
   blurb: string;
+  /** SEO <title> override. Falls back to `${name} | Salxir` when absent. */
+  seoTitle?: string;
+  /**
+   * Meta description override (~130 chars; the price is appended automatically).
+   * Falls back to the truncated blurb, which reads badly when cut mid-sentence.
+   */
+  metaDescription?: string;
   /** Current price in EUR, or null when out of stock. */
   price: number | null;
   /** Original ("compare at") price in EUR, if discounted. */
@@ -26,6 +33,8 @@ export const CATALOG: CatalogProduct[] = [
   {
     slug: 'shilajit-resin', cat: 'shilajit', img: '/images/shilajitresin.png', alt: 'Shilajit Resin (20g)',
     name: 'Shilajit Resin (20g)', price: 25.99, compare: 35,
+    seoTitle: 'Pure Himalayan Shilajit Resin 20g – Lab-Tested | Salxir',
+    metaDescription: 'Pure Himalayan Shilajit resin, lab-tested for heavy metals and shipped from Finland. The 20g jar is about a one-month supply.',
     blurb: 'Shilajit Resin is a rare natural substance traditionally harvested from the Himalayan and Karakoram mountain ranges, including regions of Gilgit-Baltistan. Formed over centuries through the gradual decomposition of plant matter and minerals within mountain rocks, Shilajit has historically been valued in traditional wellness systems for strength, endurance, vitality, and recovery support.',
     details: ['Supports energy and stamina', 'Helps support focus and mental clarity', 'Supports physical recovery and endurance', 'Rich source of natural trace minerals'],
     usage: 'Traditionally consumed by dissolving a small pea-sized amount into warm water, tea, or milk. Many users consume it during morning routines or before physical activity.',
@@ -33,6 +42,8 @@ export const CATALOG: CatalogProduct[] = [
   {
     slug: 'shilajit-ashwagandha', cat: 'shilajit royal', img: '/images/ShilajitAshwagandhacapsules.png', alt: 'Shilajit + Ashwagandha Capsules',
     name: 'Shilajit + Ashwagandha Capsules', price: 10, compare: 15,
+    seoTitle: 'Shilajit & Ashwagandha Capsules – Lab-Tested Blend | Salxir',
+    metaDescription: 'Purified Himalayan Shilajit and adaptogenic Ashwagandha root in one daily capsule. Lab-tested and shipped from Finland.',
     blurb: 'This formulation combines purified Himalayan Shilajit with Ashwagandha in convenient daily capsules, a traditional adaptogenic blend used for centuries in Ayurvedic wellness practices.',
     details: ['Supports balanced daily energy', 'Helps support recovery and endurance', 'May support stress management', 'Supports focus and resilience'],
     usage: 'Typically consumed once or twice daily with water. Consistent capsule serving sizes make it easy to integrate into your routine.',
@@ -40,6 +51,8 @@ export const CATALOG: CatalogProduct[] = [
   {
     slug: 'shilajit-honey-sticks', cat: 'shilajit easy', img: '/images/shilajithoney.png', alt: 'Shilajit Honey Sticks',
     name: 'Shilajit Honey Sticks', price: 15, compare: 18,
+    seoTitle: 'Shilajit Honey Sticks – Single-Serve Shilajit | Salxir',
+    metaDescription: 'Purified Himalayan Shilajit blended with natural honey in single-serve sticks. No measuring, no mess. Lab-tested, from Finland.',
     blurb: 'Shilajit Honey Sticks combine purified Shilajit with natural honey in a convenient single-serving format. Honey has historically been valued for nutrition and natural energy, while Shilajit contributes minerals and fulvic compounds.',
     details: ['Convenient energy support', 'Helps support focus and stamina', 'Portable daily wellness option', 'Combines sweetness with mineral support'],
     usage: 'Consumed directly from the stick before workouts, during travel, or throughout the day.',
@@ -47,6 +60,8 @@ export const CATALOG: CatalogProduct[] = [
   {
     slug: 'shilajit-ashwagandha-honey-sticks', cat: 'shilajit royal easy', img: '/images/shilajitashwagandhahoney.png', alt: 'Shilajit + Ashwagandha Honey Sticks',
     name: 'Shilajit + Ashwagandha Honey Sticks', price: 18, compare: 23,
+    seoTitle: 'Shilajit & Ashwagandha Honey Sticks – On-the-Go | Salxir',
+    metaDescription: 'Shilajit, Ashwagandha and natural honey in one single-serve stick. Portable daily support, lab-tested and shipped from Finland.',
     blurb: 'Shilajit + Ashwagandha Honey Sticks combine purified Himalayan Shilajit, traditional Ashwagandha, and natural honey in a convenient single-serving format. Designed for balanced energy, recovery, and everyday wellness on the go.',
     details: ['Purified Shilajit minerals and fulvic compounds', 'Ashwagandha for traditional adaptogenic support', 'Natural honey for taste and portable convenience', 'Single-serving sticks, no measuring required'],
     usage: 'Consumed directly from the stick, or stirred into warm water, tea, or milk.',
@@ -54,6 +69,8 @@ export const CATALOG: CatalogProduct[] = [
   {
     slug: 'shilajit-powder-capsules', cat: 'shilajit easy', img: '/images/shilajitcaps.png', alt: 'Shilajit Capsules (Shilajit+)',
     name: 'Shilajit Capsules (Shilajit+)', price: 15, compare: 20,
+    seoTitle: 'Shilajit Capsules – Purified Himalayan Shilajit | Salxir',
+    metaDescription: 'Purified Himalayan Shilajit powder in capsules — a precise daily serving, no sticky resin. Lab-tested and shipped from Finland.',
     blurb: 'Shilajit+ provides purified Shilajit powder in an easy-to-consume capsule form.',
     details: ['Supports energy and recovery', 'Helps support endurance', 'Convenient travel-friendly format', 'Suitable for active lifestyles'],
     usage: 'Consumed daily with water as part of a wellness routine.',
@@ -61,6 +78,8 @@ export const CATALOG: CatalogProduct[] = [
   {
     slug: 'shilajit-tablets', cat: 'shilajit easy', img: '/images/shilajittabs.png', alt: 'Shilajit Tablets',
     name: 'Shilajit Tablets', price: 15, compare: 20,
+    seoTitle: 'Shilajit Tablets – Easy Daily Dosing | Salxir',
+    metaDescription: 'Compressed purified Himalayan Shilajit for precise, travel-friendly daily dosing. Lab-tested for heavy metals, shipped from Finland.',
     blurb: 'Shilajit Tablets are compressed servings of purified Shilajit designed for easy storage and precise intake.',
     details: ['Supports daily vitality', 'Helps support stamina and recovery', 'Convenient and portable', 'Easy dosage management'],
     usage: 'Typically consumed with water once or twice daily.',
