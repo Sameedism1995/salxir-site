@@ -27,27 +27,34 @@ npm run build      # production build — passes, 17 routes prerendered
 npm run lint       # ESLint — 0 warnings/errors
 ```
 
-## Deploy to Vercel
+## Deploy
 
-Zero config — Vercel auto-detects Next.js.
-
-**Option A — CLI (fastest):**
+**Production deploys happen by pushing to `main`. Nothing else.**
 
 ```bash
-npm i -g vercel
-vercel            # preview deploy; follow the prompts
-vercel --prod     # promote to production
+git push origin main    # Vercel builds and promotes to salxir.com
 ```
 
-**Option B — Git + Dashboard:**
+The Vercel project (`salxir-next`, team `salxir-global`) is connected to
+`github.com/Sameedism1995/salxir-site` with Root Directory `salxir-next`.
 
-1. Push this `salxir-next` folder to a Git repo.
-2. In the Vercel dashboard: New Project → import the repo.
-3. If it's a subfolder, set **Root Directory** to `salxir-next`.
-4. Deploy.
+### Do not run `vercel --prod`
 
-After deploying, point the `salxir.com` domain at the Vercel project in
-Project → Settings → Domains.
+A CLI deploy uploads whatever is in the local folder, bypassing git entirely. In
+August 2026 this silently put a months-old build on salxir.com: the blog landing
+pages 404'd and GA4, the Meta Pixel and Clarity vanished, because the analytics
+code existed only in git and never in the folder being uploaded. The site looked
+fine, so it went unnoticed until the empty Clarity dashboard gave it away.
+
+If the local folder is behind, `git pull --rebase origin main` — never deploy
+around it.
+
+### Environment variables
+
+`NEXT_PUBLIC_*` values are inlined at **build** time, so changing one in the
+Vercel dashboard does nothing until the next deploy. After editing a var, trigger
+a redeploy — and make sure that redeploy builds from git, not from a stale
+CLI-uploaded snapshot.
 
 ## Structure
 
