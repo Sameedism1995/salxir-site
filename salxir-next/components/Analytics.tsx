@@ -130,10 +130,11 @@ export default function Analytics() {
         </Script>
       ) : null}
 
+      {/* The script id must NOT be "clarity". An element id becomes a property
+          on window, so window.clarity would resolve to the script element
+          itself and the snippet's `c[a] = c[a] || function(){}` stub would
+          never be assigned, leaving the downloaded tag unable to initialise. */}
       {CLARITY_ID && analyticsOk ? (
-        {/* id must NOT be "clarity": an element id becomes a window property,
-            so window.clarity would resolve to this <script> element and the
-            snippet's `c[a] = c[a] || function(){}` stub would never be created. */}
         <Script id="ms-clarity" strategy="afterInteractive">
           {`
             (function(c,l,a,r,i,t,y){
